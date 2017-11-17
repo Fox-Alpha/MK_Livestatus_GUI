@@ -110,7 +110,12 @@ namespace MK_Livestatus_GUI
             // Remove the current groups.
             lvLivestatusData.Groups.Clear ();
 
+            // TODO: Columns Checken
             // Retrieve the hash table corresponding to the column.
+            if (groupTables.Length == 0)
+            {
+                return;
+            }
             Hashtable groups = (Hashtable) groupTables [column];
 
             // Copy the groups for the column to an array.
@@ -148,26 +153,37 @@ namespace MK_Livestatus_GUI
 
         private void lvLivestatusData_ColumnClick (object sender, ColumnClickEventArgs e)
         {
-            //	Zurücksetzen der Icons für die SortOrder
-            foreach (ColumnHeader col in lvLivestatusData.Columns)
-            {
-                col.ImageKey = "FullGreen";
-            }
 
             // Set the sort order to ascending when changing
             // column groups; otherwise, reverse the sort order.
-            if (lvLivestatusData.Sorting == SortOrder.Descending ||
-                (isRunningXPOrLater && (e.Column != groupColumn)))
-            {
-                lvLivestatusData.Sorting = SortOrder.Ascending;
-                lvLivestatusData.Columns [e.Column].ImageKey = "SortAscend";
-            }
-            else
-            {
-                lvLivestatusData.Sorting = SortOrder.Descending;
-                lvLivestatusData.Columns [e.Column].ImageKey = "SortDesc";
 
+            lvLivestatusData.Sorting = lvLivestatusData.Sorting == SortOrder.Descending ? SortOrder.Ascending : SortOrder.Descending;
+
+            //	Zurücksetzen der Icons für die SortOrder
+            if (lvLivestatusData.SmallImageList != null)
+            {
+                foreach (ColumnHeader col in lvLivestatusData.Columns)
+                {
+                    col.ImageKey = "FullGreen";
+                }
+
+                lvLivestatusData.Columns [e.Column].ImageKey = lvLivestatusData.Sorting == SortOrder.Descending ? "SortDesc" : "SortAscend";
             }
+
+            //if (lvLivestatusData.Sorting == SortOrder.Descending ||
+            //    (isRunningXPOrLater && (e.Column != groupColumn)))
+            //{
+            //    lvLivestatusData.Sorting = SortOrder.Ascending;
+            //    if (lvLivestatusData.SmallImageList != null)
+            //        lvLivestatusData.Columns [e.Column].ImageKey = "SortAscend";
+            //}
+            //else
+            //{
+            //    lvLivestatusData.Sorting = SortOrder.Descending;
+            //    if (lvLivestatusData.SmallImageList != null)
+            //        lvLivestatusData.Columns [e.Column].ImageKey = "SortDesc";
+
+            //}
 
             // Set the groups to those created for the clicked column.
             if (isRunningXPOrLater)
