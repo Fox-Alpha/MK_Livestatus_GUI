@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent ()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMainWindow));
             this.panel1 = new System.Windows.Forms.Panel();
             this.buttQueryOptions = new System.Windows.Forms.Button();
             this.buttConnection = new System.Windows.Forms.Button();
@@ -36,7 +37,10 @@
             this.lvLivestatusData = new System.Windows.Forms.ListView();
             this.splitter = new System.Windows.Forms.Splitter();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsddButtConnections = new System.Windows.Forms.ToolStripDropDownButton();
             this.panel1.SuspendLayout();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
@@ -116,11 +120,29 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1,
+            this.tsddButtConnections});
             this.statusStrip1.Location = new System.Drawing.Point(0, 468);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(765, 22);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(109, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
+            // 
+            // tsddButtConnections
+            // 
+            this.tsddButtConnections.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsddButtConnections.Image = ((System.Drawing.Image)(resources.GetObject("tsddButtConnections.Image")));
+            this.tsddButtConnections.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsddButtConnections.Name = "tsddButtConnections";
+            this.tsddButtConnections.Size = new System.Drawing.Size(29, 20);
+            this.tsddButtConnections.Text = "toolStripDropDownButton1";
             // 
             // FormMainWindow
             // 
@@ -133,8 +155,11 @@
             this.Controls.Add(this.panel1);
             this.Name = "FormMainWindow";
             this.Text = "MK_Livestatus - GUI";
+            this.Load += new System.EventHandler(this.FormMainWindow_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -150,6 +175,8 @@
         private System.Windows.Forms.Button buttStartQuery;
         private System.Windows.Forms.TextBox tbLivestatusQuery;
         private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripDropDownButton tsddButtConnections;
     }
 }
 

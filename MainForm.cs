@@ -12,6 +12,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NagiosConectionManager;
+using System.Net.Sockets;
+using System.Net;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace MK_Livestatus_GUI
 {
@@ -31,6 +35,41 @@ namespace MK_Livestatus_GUI
         int groupColumn = 0;
 
         public string strNagiosKonfigFile { get; private set; } = "ServerKonfiguration.bin";
+
+        //	Menüeintrag für ConnectionManager Formaufruf
+        ToolStripMenuItem tsiNagiosConnectionManager;
+
+        Socket s = null;
+        IPEndPoint hostEndPoint;
+        IPAddress hostAddress;
+        IPAddress [] IPaddresses = null;
+
+        string _nagiosHost;
+
+        public string nagiosHost
+        {
+            get { return _nagiosHost; }
+            set { _nagiosHost = value; }
+        }
+        int _nagiosLivePort;
+
+        public int nagiosLivePort
+        {
+            get { return _nagiosLivePort; }
+            set { _nagiosLivePort = value; }
+        }
+
+        int _activeConnectionSet;
+
+        public int activeConnectionSet
+        {
+            get { return _activeConnectionSet; }
+            set { _activeConnectionSet = value; }
+        }
+
+        ArrayList nagiosKonfigList;
+
+
         #endregion
 
         public FormMainWindow ()
@@ -212,6 +251,203 @@ namespace MK_Livestatus_GUI
             ncm.Dispose ();
 
         }
+
+        private void FormMainWindow_Load (object sender, EventArgs e)
+        {
+            tsiNagiosConnectionManager = new ToolStripMenuItem ("Verbindungen Verwaltung",
+                                    null,
+                                    verbindungenVerwaltenToolStripMenuItem_Click,
+                                    "tsiNagiosConnectionManager");
+            //Laden der Nagios Konfigurationen und Darstellen im Menü der Statuszeile
+            loadKonfigFromFile ();
+
+            //	Setzen der ersten Eintrags als standard Verbindung
+            activeConnectionSet = nagiosKonfigList.Count > 0 ? 0 : -1;
+
+            setConnectionList ();
+
+            //TODO: Hostauflösung wenn keine IP eingetragen ist
+            //	Auslagern in eigene Funktion
+
+            if (activeConnectionSet >= 0)
+            {
+                nagiosHost = ((NagiosServer) nagiosKonfigList [activeConnectionSet]).hostname;
+                //	prüfen ob es sich bei Hostname um eine IP Adresse handelt
+                if (!Regex.IsMatch (nagiosHost, "192.162.[0-9]{1,3}-[0-9]{1,3}") || !IPAddress.TryParse (nagiosHost, out hostAddress))
+                {
+                    // Get DNS host information.
+                    IPHostEntry hostInfo = Dns.GetHostEntry (nagiosHost);
+                    // Get the DNS IP addresses associated with the host.
+                    IPaddresses = hostInfo.AddressList;
+
+                    hostAddress = IPaddresses [0];
+                    //					hostEndPoint = new IPEndPoint(hostAddress, port);
+                }
+                if (((NagiosServer) nagiosKonfigList [activeConnectionSet]).enableLivestatus) //&& ((NagiosServer)nagiosKonfigList[activeConnectionSet]).enableLivestatus)
+                {
+                    nagiosLivePort = ((NagiosServer) nagiosKonfigList [activeConnectionSet]).mklivePort;
+                    //					hostEndPoint = new IPEndPoint(hostAddress, nagiosLivePort);
+
+                    Debug.WriteLine ("IPADRESS.TryParse()", "MainForm_Load()");
+
+                }
+
+                hostEndPoint = new IPEndPoint (hostAddress, nagiosLivePort);
+            }
+
+        }
+
+        #region ConnectionManager
+        /// <summary>
+        /// Anzeigen der Verbindungsverwaltung aus dem Assembly
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void verbindungenVerwaltenToolStripMenuItem_Click (object sender, EventArgs e)
+        {
+            ConnectionManager ncm = new ConnectionManager ();
+
+            ncm.strNagiosKonfigfile = strNagiosKonfigFile;
+
+            if (ncm.ShowDialog () == DialogResult.OK)
+            {
+                //Neuladen der Konfigurationsliste
+                refreshConnectionList ();
+            }
+
+            ncm.Dispose ();
+        }
+
+        /// <summary>
+        /// Laden der gespeicherten Konfigurationen
+        /// </summary>
+        void loadKonfigFromFile ()
+        {
+            if (!File.Exists (strNagiosKonfigFile))
+                return;
+
+            using (FileStream fs = new FileStream (strNagiosKonfigFile, FileMode.Open))
+            {
+                try
+                {
+                    BinaryFormatter formatter = new BinaryFormatter ();
+                    nagiosKonfigList = (ArrayList) formatter.Deserialize (fs);
+                }
+                catch (SerializationException e)
+                {
+                    // die Datei kann nicht deserialisiert werden
+                    Debug.WriteLine (e.Message, "loadKonfigFromFile().SerializationException");
+                }
+                catch (IOException e)
+                {
+                    // Beim Versuch, die Datei zu öffnen, ist ein Fehler aufgetreten.
+                    Debug.WriteLine (e.Message, "loadKonfigFromFile().IOException");
+                }
+
+                //			    foreach (object obj in nagiosKonfigList) {
+                //			    	if(obj != null)
+                //			    	{
+                //			    		
+                //			    	}
+                //			    		listBox1.Items.Add((obj as NagiosServer).svrConfigName);
+                //			    }
+                //			    activeConfigIndex = listBox1.Items.Count > 0 ? 0 : -1;
+            }
+        }
+
+        /// <summary>
+        /// Alle Verbindungseinträge im Menü entfernen 
+        /// </summary>
+        void clearConnectionList ()
+        {
+            if (nagiosKonfigList.Count > 0)
+            {
+                //Bereinigen der Menüliste
+                tsddButtConnections.DropDown.Items.Clear ();
+            }
+        }
+
+        /// <summary>
+        /// Eingelesene Verbindungen als Eintrag hinzufügen
+        /// </summary>
+        void setConnectionList ()
+        {
+            ToolStripMenuItem tsmiConnect;
+            tsddButtConnections.DropDownItems.Add (tsiNagiosConnectionManager);
+
+            tsddButtConnections.DropDownItems.Add (new ToolStripSeparator ());
+
+            foreach (object obj in nagiosKonfigList)
+            {
+                tsmiConnect = new ToolStripMenuItem ((obj as NagiosServer).svrConfigName, null, setActiveConnectionToolStripMenuItem_Click, "tsiNagiosConnection" + nagiosKonfigList.IndexOf (obj));
+                tsmiConnect.Tag = nagiosKonfigList.IndexOf (obj);
+                if (activeConnectionSet == nagiosKonfigList.IndexOf (obj))
+                {
+                    tsmiConnect.Checked = true;
+                }
+
+                tsddButtConnections.DropDownItems.Add (tsmiConnect);
+            }
+        }
+
+        /// <summary>
+        /// Reload der Verbindungseinträge
+        /// </summary>
+        void refreshConnectionList ()
+        {
+            clearConnectionList ();
+            loadKonfigFromFile ();
+            setConnectionList ();
+            //	TODO: Aufruf eigener Funktion zum Setzen der aktiven Verbindung
+        }
+
+        /// <summary>
+        /// Setzen der zu verwendenden Verbindungskonfiguration
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void setActiveConnectionToolStripMenuItem_Click (object sender, EventArgs e)
+        {
+            int lastConnectionSet = activeConnectionSet;
+
+            activeConnectionSet = Convert.ToInt32 ((sender as ToolStripMenuItem).Tag);
+
+            //	Checked aus vorherigem MenuItem entfernen
+            foreach (ToolStripItem tsmi in tsddButtConnections.DropDownItems)
+            {
+                if (tsmi as ToolStripMenuItem != null)
+                    ((ToolStripMenuItem) tsmi).Checked = false;
+            }
+
+            (sender as ToolStripMenuItem).Checked = true;
+
+            if (activeConnectionSet >= 0)
+            {
+                //	prüfen ob es sich bei Hostname um eine IP Adresse handelt
+                nagiosHost = ((NagiosServer) nagiosKonfigList [activeConnectionSet]).hostname;
+                //if (!Regex.IsMatch(((NagiosServer)nagiosKonfigList[activeConnectionSet]).hostname, "192.162.[0-9]{1,3}-[0-9]{1,3}"))
+                if (!Regex.IsMatch (nagiosHost, "192.162.[0-9]{1,3}-[0-9]{1,3}") || !IPAddress.TryParse (nagiosHost, out hostAddress))
+                {
+
+                    // Get DNS host information.
+                    IPHostEntry hostInfo = Dns.GetHostEntry (nagiosHost);
+                    // Get the DNS IP addresses associated with the host.
+                    IPaddresses = hostInfo.AddressList;
+
+                    hostAddress = IPaddresses [0];
+                }
+                if (((NagiosServer) nagiosKonfigList [activeConnectionSet]).enableLivestatus)
+                //if (IPAddress.TryParse(((NagiosServer)nagiosKonfigList[activeConnectionSet]).hostname, out hostAddress) && ((NagiosServer)nagiosKonfigList[activeConnectionSet]).enableLivestatus)
+                {
+                    nagiosLivePort = ((NagiosServer) nagiosKonfigList [activeConnectionSet]).mklivePort;
+                    Debug.WriteLine ("Setzen der MKLive Verbindung", "setActiveConnectionToolStripMenuItem_Click()");
+                }
+
+                hostEndPoint = new IPEndPoint (hostAddress, nagiosLivePort);
+
+            }
+        }
+        #endregion
     }
 
 
