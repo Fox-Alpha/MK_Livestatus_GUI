@@ -122,6 +122,24 @@ namespace MK_Livestatus_GUI
                 hostEndPoint = new IPEndPoint (hostAddress, nagiosLivePort);
             }
 
+            if (isRunningXPOrLater)
+            {
+                // Create the groupsTable array and populate it with one 
+                // hash table for each column.
+                groupTables = new Hashtable [lvLivestatusData.Columns.Count];
+                for (int column = 0; column < lvLivestatusData.Columns.Count; column++)
+                {
+                    // Create a hash table containing all the groups 
+                    // needed for a single column.
+                    groupTables [column] = CreateGroupsTable (column);
+                    lvLivestatusData.Columns [column].ImageKey = "FullGreen";
+                }
+
+                // Start with the groups created for the Title column.
+                SetGroups (0);
+            }
+
+
         }
 
         #endregion
@@ -326,7 +344,7 @@ namespace MK_Livestatus_GUI
 
         #endregion
 
-
+        //  Verwaltung der Server Verbindungsdaten
         #region ConnectionManager
         /// <summary>
         /// Anzeigen der Verbindungsverwaltung aus dem Assembly
@@ -478,6 +496,66 @@ namespace MK_Livestatus_GUI
             }
         }
         #endregion
+
+        private void button1_Click (object sender, EventArgs e)
+        {
+            Stopwatch sw = Stopwatch.StartNew ();
+
+            lvLivestatusData.Items.Clear ();
+            //foreach (string item in GetDirGreaterThen24h(@"c:\temp\08154711"))
+            foreach (string item in GetDirGreaterThen24h(@"\\HH-VS-PR-002\verarb\"))
+            {
+                lvLivestatusData.Items.Add (new ListViewItem(item)).SubItems.Add(new DirectoryInfo(item).CreationTime.ToString());
+
+            }
+
+            Debug.WriteLine (sw.Elapsed.ToString ());
+
+            if (isRunningXPOrLater)
+            {
+                // Create the groupsTable array and populate it with one 
+                // hash table for each column.
+                groupTables = new Hashtable [lvLivestatusData.Columns.Count];
+                for (int column = 0; column < lvLivestatusData.Columns.Count; column++)
+                {
+                    // Create a hash table containing all the groups 
+                    // needed for a single column.
+                    groupTables [column] = CreateGroupsTable (column);
+                    lvLivestatusData.Columns [column].ImageKey = "FullGreen";
+                }
+
+                // Start with the groups created for the Title column.
+                SetGroups (0);
+            }
+
+            toolStripStatusLabel1.Text = string.Format("Es wurden {0} Verzeichnisse gefunden",  lvLivestatusData.Items.Count.ToString ());
+        }
+
+        public static string [] GetDirGreaterThen24h (string sourceDir)
+        {
+            string [] Jobs = System.IO.Directory.GetDirectories (sourceDir, "*.*", System.IO.SearchOption.TopDirectoryOnly);
+            List<string> result = new List<string> ();
+
+            foreach (string JobPath in Jobs)
+            {
+                if (Directory.Exists(Path.Combine (JobPath, "buf\\")))
+                {
+                    string [] Jobbuf = System.IO.Directory.GetDirectories (Path.Combine(JobPath, "buf\\"), "*.*", System.IO.SearchOption.TopDirectoryOnly);
+                    foreach (string buf in Jobbuf)
+                    {
+                        System.IO.DirectoryInfo diJob = new System.IO.DirectoryInfo (buf);
+                        if (diJob.CreationTime < DateTime.Now.AddHours (-24))
+                        {
+                            Debug.WriteLine (@"Der Batch: " + buf + "ist älter wie 24h: " + diJob.CreationTime.ToString ());
+                            result.Add (buf);
+                        }
+                    }
+                }
+            }
+            
+            return result.ToArray ();
+        }
+
     }
 
 

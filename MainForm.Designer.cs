@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMainWindow));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.buttQueryOptions = new System.Windows.Forms.Button();
             this.buttConnection = new System.Windows.Forms.Button();
             this.buttStartQuery = new System.Windows.Forms.Button();
@@ -39,12 +40,15 @@
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsddButtConnections = new System.Windows.Forms.ToolStripDropDownButton();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.button1);
             this.panel1.Controls.Add(this.buttQueryOptions);
             this.panel1.Controls.Add(this.buttConnection);
             this.panel1.Controls.Add(this.buttStartQuery);
@@ -54,6 +58,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(765, 125);
             this.panel1.TabIndex = 0;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(518, 36);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // buttQueryOptions
             // 
@@ -96,6 +110,9 @@
             // 
             // lvLivestatusData
             // 
+            this.lvLivestatusData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2});
             this.lvLivestatusData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvLivestatusData.FullRowSelect = true;
             this.lvLivestatusData.GridLines = true;
@@ -144,6 +161,14 @@
             this.tsddButtConnections.Size = new System.Drawing.Size(29, 20);
             this.tsddButtConnections.Text = "toolStripDropDownButton1";
             // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Pfad";
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "TimeStamp";
+            // 
             // FormMainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -177,6 +202,9 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripDropDownButton tsddButtConnections;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
     }
 }
 
