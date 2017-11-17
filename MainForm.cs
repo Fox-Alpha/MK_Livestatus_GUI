@@ -319,89 +319,6 @@ namespace MK_Livestatus_GUI
         }
 
         /// <summary>
-        /// Laden der gespeicherten Konfigurationen
-        /// </summary>
-        void loadKonfigFromFile ()
-        {
-            if (!File.Exists (strNagiosKonfigFile))
-                return;
-
-            using (FileStream fs = new FileStream (strNagiosKonfigFile, FileMode.Open))
-            {
-                try
-                {
-                    BinaryFormatter formatter = new BinaryFormatter ();
-                    nagiosKonfigList = (ArrayList) formatter.Deserialize (fs);
-                }
-                catch (SerializationException e)
-                {
-                    // die Datei kann nicht deserialisiert werden
-                    Debug.WriteLine (e.Message, "loadKonfigFromFile().SerializationException");
-                }
-                catch (IOException e)
-                {
-                    // Beim Versuch, die Datei zu öffnen, ist ein Fehler aufgetreten.
-                    Debug.WriteLine (e.Message, "loadKonfigFromFile().IOException");
-                }
-
-                //			    foreach (object obj in nagiosKonfigList) {
-                //			    	if(obj != null)
-                //			    	{
-                //			    		
-                //			    	}
-                //			    		listBox1.Items.Add((obj as NagiosServer).svrConfigName);
-                //			    }
-                //			    activeConfigIndex = listBox1.Items.Count > 0 ? 0 : -1;
-            }
-        }
-
-        /// <summary>
-        /// Alle Verbindungseinträge im Menü entfernen 
-        /// </summary>
-        void clearConnectionList ()
-        {
-            if (nagiosKonfigList.Count > 0)
-            {
-                //Bereinigen der Menüliste
-                tsddButtConnections.DropDown.Items.Clear ();
-            }
-        }
-
-        /// <summary>
-        /// Eingelesene Verbindungen als Eintrag hinzufügen
-        /// </summary>
-        void setConnectionList ()
-        {
-            ToolStripMenuItem tsmiConnect;
-            tsddButtConnections.DropDownItems.Add (tsiNagiosConnectionManager);
-
-            tsddButtConnections.DropDownItems.Add (new ToolStripSeparator ());
-
-            foreach (object obj in nagiosKonfigList)
-            {
-                tsmiConnect = new ToolStripMenuItem ((obj as NagiosServer).svrConfigName, null, setActiveConnectionToolStripMenuItem_Click, "tsiNagiosConnection" + nagiosKonfigList.IndexOf (obj));
-                tsmiConnect.Tag = nagiosKonfigList.IndexOf (obj);
-                if (activeConnectionSet == nagiosKonfigList.IndexOf (obj))
-                {
-                    tsmiConnect.Checked = true;
-                }
-
-                tsddButtConnections.DropDownItems.Add (tsmiConnect);
-            }
-        }
-
-        /// <summary>
-        /// Reload der Verbindungseinträge
-        /// </summary>
-        void refreshConnectionList ()
-        {
-            clearConnectionList ();
-            loadKonfigFromFile ();
-            setConnectionList ();
-            //	TODO: Aufruf eigener Funktion zum Setzen der aktiven Verbindung
-        }
-
-        /// <summary>
         /// Setzen der zu verwendenden Verbindungskonfiguration
         /// </summary>
         /// <param name="sender"></param>
@@ -445,6 +362,89 @@ namespace MK_Livestatus_GUI
 
                 hostEndPoint = new IPEndPoint (hostAddress, nagiosLivePort);
 
+            }
+        }
+
+        /// <summary>
+        /// Reload der Verbindungseinträge
+        /// </summary>
+        void refreshConnectionList ()
+        {
+            clearConnectionList ();
+            loadKonfigFromFile ();
+            setConnectionList ();
+            //	TODO: Aufruf eigener Funktion zum Setzen der aktiven Verbindung
+        }
+
+        /// <summary>
+        /// Alle Verbindungseinträge im Menü entfernen 
+        /// </summary>
+        void clearConnectionList ()
+        {
+            if (nagiosKonfigList.Count > 0)
+            {
+                //Bereinigen der Menüliste
+                tsddButtConnections.DropDown.Items.Clear ();
+            }
+        }
+
+        /// <summary>
+        /// Eingelesene Verbindungen als Eintrag hinzufügen
+        /// </summary>
+        void setConnectionList ()
+        {
+            ToolStripMenuItem tsmiConnect;
+            tsddButtConnections.DropDownItems.Add (tsiNagiosConnectionManager);
+
+            tsddButtConnections.DropDownItems.Add (new ToolStripSeparator ());
+
+            foreach (object obj in nagiosKonfigList)
+            {
+                tsmiConnect = new ToolStripMenuItem ((obj as NagiosServer).svrConfigName, null, setActiveConnectionToolStripMenuItem_Click, "tsiNagiosConnection" + nagiosKonfigList.IndexOf (obj));
+                tsmiConnect.Tag = nagiosKonfigList.IndexOf (obj);
+                if (activeConnectionSet == nagiosKonfigList.IndexOf (obj))
+                {
+                    tsmiConnect.Checked = true;
+                }
+
+                tsddButtConnections.DropDownItems.Add (tsmiConnect);
+            }
+        }
+
+        /// <summary>
+        /// Laden der gespeicherten Konfigurationen
+        /// </summary>
+        void loadKonfigFromFile ()
+        {
+            if (!File.Exists (strNagiosKonfigFile))
+                return;
+
+            using (FileStream fs = new FileStream (strNagiosKonfigFile, FileMode.Open))
+            {
+                try
+                {
+                    BinaryFormatter formatter = new BinaryFormatter ();
+                    nagiosKonfigList = (ArrayList) formatter.Deserialize (fs);
+                }
+                catch (SerializationException e)
+                {
+                    // die Datei kann nicht deserialisiert werden
+                    Debug.WriteLine (e.Message, "loadKonfigFromFile().SerializationException");
+                }
+                catch (IOException e)
+                {
+                    // Beim Versuch, die Datei zu öffnen, ist ein Fehler aufgetreten.
+                    Debug.WriteLine (e.Message, "loadKonfigFromFile().IOException");
+                }
+
+                //			    foreach (object obj in nagiosKonfigList) {
+                //			    	if(obj != null)
+                //			    	{
+                //			    		
+                //			    	}
+                //			    		listBox1.Items.Add((obj as NagiosServer).svrConfigName);
+                //			    }
+                //			    activeConfigIndex = listBox1.Items.Count > 0 ? 0 : -1;
             }
         }
         #endregion
