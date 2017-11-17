@@ -72,32 +72,62 @@ namespace MK_Livestatus_GUI
 
         #endregion
 
+        #region FormFunktions
         public FormMainWindow ()
         {
             InitializeComponent ();
         }
 
-        private void buttStartQuery_Click (object sender, EventArgs e)
+
+        private void FormMainWindow_Load (object sender, EventArgs e)
         {
-            //	Gruppen können nur ab Windows XP und aufwärts erstellt werden
-            if (isRunningXPOrLater)
+            tsiNagiosConnectionManager = new ToolStripMenuItem ("Verbindungen Verwaltung",
+                                    null,
+                                    verbindungenVerwaltenToolStripMenuItem_Click,
+                                    "tsiNagiosConnectionManager");
+            //Laden der Nagios Konfigurationen und Darstellen im Menü der Statuszeile
+            loadKonfigFromFile ();
+
+            //	Setzen der ersten Eintrags als standard Verbindung
+            activeConnectionSet = nagiosKonfigList.Count > 0 ? 0 : -1;
+
+            setConnectionList ();
+
+            //TODO: Hostauflösung wenn keine IP eingetragen ist
+            //	Auslagern in eigene Funktion
+
+            if (activeConnectionSet >= 0)
             {
-                // Create the groupsTable array and populate it with one 
-                // hash table for each column.
-                groupTables = new Hashtable [lvLivestatusData.Columns.Count];
-                for (int column = 0; column < lvLivestatusData.Columns.Count; column++)
+                nagiosHost = ((NagiosServer) nagiosKonfigList [activeConnectionSet]).hostname;
+                //	prüfen ob es sich bei Hostname um eine IP Adresse handelt
+                if (!Regex.IsMatch (nagiosHost, "192.162.[0-9]{1,3}-[0-9]{1,3}") || !IPAddress.TryParse (nagiosHost, out hostAddress))
                 {
-                    // Create a hash table containing all the groups 
-                    // needed for a single column.
-                    groupTables [column] = CreateGroupsTable (column);
-                    lvLivestatusData.Columns [column].ImageKey = "FullGreen";
+                    // Get DNS host information.
+                    IPHostEntry hostInfo = Dns.GetHostEntry (nagiosHost);
+                    // Get the DNS IP addresses associated with the host.
+                    IPaddresses = hostInfo.AddressList;
+
+                    hostAddress = IPaddresses [0];
+                    //					hostEndPoint = new IPEndPoint(hostAddress, port);
+                }
+                if (((NagiosServer) nagiosKonfigList [activeConnectionSet]).enableLivestatus) //&& ((NagiosServer)nagiosKonfigList[activeConnectionSet]).enableLivestatus)
+                {
+                    nagiosLivePort = ((NagiosServer) nagiosKonfigList [activeConnectionSet]).mklivePort;
+                    //					hostEndPoint = new IPEndPoint(hostAddress, nagiosLivePort);
+
+                    Debug.WriteLine ("IPADRESS.TryParse()", "MainForm_Load()");
+
                 }
 
-                // Start with the groups created for the Title column.
-                SetGroups (0);
+                hostEndPoint = new IPEndPoint (hostAddress, nagiosLivePort);
             }
 
         }
+
+        #endregion
+
+        //  Funktionen zum Auswerten, aufbereiten und Anzeigen der Daten
+        #region DataDisplay
 
         // Creates a Hashtable object with one entry for each unique
         // subitem value (or initial letter for the parent item)
@@ -192,6 +222,11 @@ namespace MK_Livestatus_GUI
             }
         }
 
+        /// <summary>
+        /// Sortiert den Inhalt per Klick auf den Spaltennamen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void lvLivestatusData_ColumnClick (object sender, ColumnClickEventArgs e)
         {
 
@@ -236,6 +271,16 @@ namespace MK_Livestatus_GUI
 
         }
 
+        #endregion
+
+        //  Funktionen die aus dem UI z.B. per Button aufgerufen werden
+        #region UIFunktons
+
+        /// <summary>
+        /// Ruft den ConnectionManager per Button auf
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttConnection_Click (object sender, EventArgs e)
         {
             ConnectionManager ncm = new ConnectionManager ();
@@ -245,57 +290,42 @@ namespace MK_Livestatus_GUI
             if (ncm.ShowDialog () == DialogResult.OK)
             {
                 //Neuladen der Konfigurationsliste
-                //refreshConnectionList ();
+                refreshConnectionList ();
             }
 
             ncm.Dispose ();
 
         }
 
-        private void FormMainWindow_Load (object sender, EventArgs e)
+        /// <summary>
+        /// Starten die Abfrage mit dem einegegebenen Query
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void buttStartQuery_Click (object sender, EventArgs e)
         {
-            tsiNagiosConnectionManager = new ToolStripMenuItem ("Verbindungen Verwaltung",
-                                    null,
-                                    verbindungenVerwaltenToolStripMenuItem_Click,
-                                    "tsiNagiosConnectionManager");
-            //Laden der Nagios Konfigurationen und Darstellen im Menü der Statuszeile
-            loadKonfigFromFile ();
-
-            //	Setzen der ersten Eintrags als standard Verbindung
-            activeConnectionSet = nagiosKonfigList.Count > 0 ? 0 : -1;
-
-            setConnectionList ();
-
-            //TODO: Hostauflösung wenn keine IP eingetragen ist
-            //	Auslagern in eigene Funktion
-
-            if (activeConnectionSet >= 0)
+            //	Gruppen können nur ab Windows XP und aufwärts erstellt werden
+            if (isRunningXPOrLater)
             {
-                nagiosHost = ((NagiosServer) nagiosKonfigList [activeConnectionSet]).hostname;
-                //	prüfen ob es sich bei Hostname um eine IP Adresse handelt
-                if (!Regex.IsMatch (nagiosHost, "192.162.[0-9]{1,3}-[0-9]{1,3}") || !IPAddress.TryParse (nagiosHost, out hostAddress))
+                // Create the groupsTable array and populate it with one 
+                // hash table for each column.
+                groupTables = new Hashtable [lvLivestatusData.Columns.Count];
+                for (int column = 0; column < lvLivestatusData.Columns.Count; column++)
                 {
-                    // Get DNS host information.
-                    IPHostEntry hostInfo = Dns.GetHostEntry (nagiosHost);
-                    // Get the DNS IP addresses associated with the host.
-                    IPaddresses = hostInfo.AddressList;
-
-                    hostAddress = IPaddresses [0];
-                    //					hostEndPoint = new IPEndPoint(hostAddress, port);
-                }
-                if (((NagiosServer) nagiosKonfigList [activeConnectionSet]).enableLivestatus) //&& ((NagiosServer)nagiosKonfigList[activeConnectionSet]).enableLivestatus)
-                {
-                    nagiosLivePort = ((NagiosServer) nagiosKonfigList [activeConnectionSet]).mklivePort;
-                    //					hostEndPoint = new IPEndPoint(hostAddress, nagiosLivePort);
-
-                    Debug.WriteLine ("IPADRESS.TryParse()", "MainForm_Load()");
-
+                    // Create a hash table containing all the groups 
+                    // needed for a single column.
+                    groupTables [column] = CreateGroupsTable (column);
+                    lvLivestatusData.Columns [column].ImageKey = "FullGreen";
                 }
 
-                hostEndPoint = new IPEndPoint (hostAddress, nagiosLivePort);
+                // Start with the groups created for the Title column.
+                SetGroups (0);
             }
 
         }
+
+        #endregion
+
 
         #region ConnectionManager
         /// <summary>
