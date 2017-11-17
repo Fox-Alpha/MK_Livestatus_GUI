@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using NagiosConectionManager;
 
 namespace MK_Livestatus_GUI
 {
@@ -29,6 +29,8 @@ namespace MK_Livestatus_GUI
 
         // Declare a variable to store the current grouping column.
         int groupColumn = 0;
+
+        public string strNagiosKonfigFile { get; private set; } = "ServerKonfiguration.bin";
         #endregion
 
         public FormMainWindow ()
@@ -192,6 +194,22 @@ namespace MK_Livestatus_GUI
             }
 
             groupColumn = e.Column;
+
+        }
+
+        private void buttConnection_Click (object sender, EventArgs e)
+        {
+            ConnectionManager ncm = new ConnectionManager ();
+
+            ncm.strNagiosKonfigfile = strNagiosKonfigFile;
+
+            if (ncm.ShowDialog () == DialogResult.OK)
+            {
+                //Neuladen der Konfigurationsliste
+                //refreshConnectionList ();
+            }
+
+            ncm.Dispose ();
 
         }
     }

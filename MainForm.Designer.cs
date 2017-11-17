@@ -68,6 +68,7 @@
             this.buttConnection.TabIndex = 2;
             this.buttConnection.Text = "Verbindung";
             this.buttConnection.UseVisualStyleBackColor = true;
+            this.buttConnection.Click += new System.EventHandler(this.buttConnection_Click);
             // 
             // buttStartQuery
             // 
