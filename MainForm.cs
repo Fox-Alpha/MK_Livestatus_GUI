@@ -9,6 +9,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using NagiosConectionManager;
@@ -69,6 +70,16 @@ namespace MK_Livestatus_GUI
 
         ArrayList nagiosKonfigList;
 
+        // ManualResetEvent instances signal completion.
+        private static ManualResetEvent connectDone =
+            new ManualResetEvent (false);
+        private static ManualResetEvent sendDone =
+            new ManualResetEvent (false);
+        private static ManualResetEvent receiveDone =
+            new ManualResetEvent (false);
+
+        // The response from the remote device.
+        private static String response = String.Empty;
 
         #endregion
 
@@ -322,6 +333,8 @@ namespace MK_Livestatus_GUI
         /// <param name="e"></param>
         private void buttStartQuery_Click (object sender, EventArgs e)
         {
+
+            Thread thread = new Thread (DoWork);
             //	Gruppen können nur ab Windows XP und aufwärts erstellt werden
             if (isRunningXPOrLater)
             {
@@ -339,6 +352,8 @@ namespace MK_Livestatus_GUI
                 // Start with the groups created for the Title column.
                 SetGroups (0);
             }
+
+            thread.Start ();
 
         }
 
@@ -556,7 +571,114 @@ namespace MK_Livestatus_GUI
             return result.ToArray ();
         }
 
+        /// <summary>
+        /// Diese Methode wird von einem Background Thread (nicht UI Thread) aufgerufen
+        /// </summary>
+        /// <param name="max">Maximale Anzahl der Durchläufe</param>
+        //private void BackgroundThreadAction (int max)
+        //{
+        //    //if (max < 0)
+        //    //{
+        //    //    InvokeIfRequired (this.textBoxStatus, (MethodInvoker) delegate ()
+        //    //    {
+        //    //        this.textBoxStatus.Text = "max value must be greater than zero";
+        //    //    });
+        //    //    return;
+        //    //}
+        //    for (int i = 0; i < max; i++)
+        //    {
+        //        InvokeIfRequired (this.textBoxStatus, (MethodInvoker) delegate ()
+        //        {
+        //            this.textBoxStatus.Text = String.Format ("Processing value {0}", i);
+        //        });
+        //        Thread.Sleep (10);
+        //    }
+        //}
+
+        /// <summary>
+        /// Methode die die UI Interaktionen durchführt.
+        /// </summary>
+        /// <param name="target">Control welches geändert wird, werden mehrere Controls geändert muss hier das Parent Control übergeben werden</param>
+        /// <param name="methodToInvoke">der Delegate der ausgeführt werden soll (UI Aktionen)</param>
+        private void InvokeIfRequired (Control target, Delegate methodToInvoke)
+        {
+            /* Mit Hilfe von InvokeRequired wird geprüft ob der Aufruf direkt an die UI gehen kann oder
+             * ob ein Invokeing hier von Nöten ist
+             */
+            if (target.InvokeRequired)
+            {
+                // Das Control muss per Invoke geändert werden, weil der aufruf aus einem Backgroundthread kommt
+                target.Invoke (methodToInvoke);
+            }
+            else
+            {
+                // Die Änderung an der UI kann direkt aufgerufen werden.
+                methodToInvoke.DynamicInvoke ();
+
+
+            }
+        }
+
+        private bool _shouldStop = false;
+
+        public void DoWork ()
+        {
+            int max = 10;
+
+            while (!_shouldStop)
+            {
+                for (int i = 0; i < max; i++)
+                {
+                    InvokeIfRequired (lvLivestatusData, (MethodInvoker) delegate ()
+                    {
+                        lvLivestatusData.Items.Add(String.Format ("Processing value {0}", i));
+                    });
+                    Thread.Sleep (10);
+                }
+            }
+        }
     }
+
+    // State object for receiving data from remote device.
+    public class StateObject
+    {
+        // Client socket.
+        public Socket workSocket = null;
+        // Size of receive buffer.
+        public const int BufferSize = 256;
+        // Receive buffer.
+        public byte [] buffer = new byte [BufferSize];
+        // Received data string.
+        public StringBuilder sb = new StringBuilder ();
+    }
+
+    //class Worker
+    //{
+    //    private volatile bool _shouldStop = false;
+
+    //    public Worker() { }
+
+    //    public void DoWork()
+    //    {
+    //        while(!_shouldStop)
+    //        {
+    //            for (int i = 0; i < max; i++)
+    //            {
+    //                InvokeIfRequired (this.textBoxStatus, (MethodInvoker) delegate ()
+    //                {
+    //                    this.textBoxStatus.Text = String.Format ("Processing value {0}", i);
+    //                });
+    //                Thread.Sleep (10);
+    //            }
+    //        }
+
+    //    }
+
+    //    public void StopWork()
+    //    {
+    //        _shouldStop = true;
+    //    }
+    //}
 
 
     // Sorts ListViewGroup objects by header value.
