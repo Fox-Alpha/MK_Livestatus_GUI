@@ -23,6 +23,41 @@ using static System.Windows.Forms.ListView;
 namespace MK_Livestatus_GUI
 {
 
+    enum MK_LiveStatusObjectTypes : int
+    {
+        None = 0,
+        String = 1,
+        Integer,
+        Boolean,
+        Time,
+        Float,
+        List,
+        Float2Vector,
+        Float3Vector,
+        Dict
+    }
+
+    enum MK_LivestatusTables : int
+    {
+        None = 0,
+        Columns,
+        Comments,
+        Contactgroups,
+        Contacts,
+        Downtimes,
+        Hostgroups,
+        Hosts,
+        Hostsbygroup,
+        Log,
+        Servicegroups,
+        Services,
+        Servicesbygroup,
+        Servicesbyhostgroup,
+        Statehist,
+        Status,
+        Timeperiods
+    }
+
     public partial class FormMainWindow : Form
     {
         #region Properties
