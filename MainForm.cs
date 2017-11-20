@@ -17,6 +17,8 @@ using System.Net.Sockets;
 using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using ClassHelperUtils;
+using static System.Windows.Forms.ListView;
 
 namespace MK_Livestatus_GUI
 {
@@ -623,21 +625,350 @@ namespace MK_Livestatus_GUI
 
         public void DoWork ()
         {
-            int max = 10;
 
-            while (!_shouldStop)
+            // Connect to a remote device.
+            try
             {
-                for (int i = 0; i < max; i++)
+                // Establish the remote endpoint for the socket.
+                // The name of the 
+                // remote device is "host.contoso.com".
+                IPHostEntry ipHostInfo = Dns.GetHostEntry (nagiosHost);
+                IPAddress ipAddress = ipHostInfo.AddressList [0];
+                IPEndPoint remoteEP = new IPEndPoint (ipAddress, nagiosLivePort);
+
+                string GET = string.Empty;
+
+                // Create a TCP/IP socket.
+                Socket client = new Socket (AddressFamily.InterNetwork,
+                    SocketType.Stream, ProtocolType.Tcp);
+                client.SetSocketOption (SocketOptionLevel.Tcp, SocketOptionName.NoDelay, 1);
+                client.ReceiveTimeout = 300000;
+
+                // Connect to the remote endpoint.
+                client.BeginConnect (remoteEP,
+                    new AsyncCallback (ConnectCallback), client);
+                connectDone.WaitOne ();
+
+                // Send test data to the remote device.
+                //Send (client, "This is a test<EOF>");
+                //Send (client, "GET status\nResponseHeader: fixed16\nColumnHeaders: on\n");
+                GET =
+
+                //"GET columns\nFilter: table = comments\nColumns: name\nResponseHeader: fixed16\n");
+                //"GET status\n" +
+                //"Columns: livecheck_overflows livecheck_overflows_rate livechecks livechecks_rate livestatus_active_connections " +
+                //"livestatus_queued_connections livestatus_threads livestatus_version num_hosts num_services program_start program_version\n" +
+                //"ColumnHeaders: on\n" +
+                //"ResponseHeader: fixed16\n"
+
+                //"GET comments\n" +
+                //"Columns: author comment host_alias\n" +
+                //"ColumnHeaders: on\n" +
+                //"ResponseHeader: fixed16\n";
+
+                "GET services\n" +
+                "Columns:  host_name description last_state state state_type last_state_change next_check plugin_output\n" +
+                //"Filter: description = TEST Port Check mit Antwort Pruefung\n" +
+                "WaitTrigger: state\n" +
+                //"Filter: host_name = HH-WS-SD-003\n";// +
+                "Filter: state > 0\n" +
+                "WaitTimeout: 3000\n" +
+                //"ResponseHeader: fixed16"
+                "ColumnHeaders: on\n"
+
+                //"OutputFormat: json\n"
+                ;
+
+
+                // Syncron Receive
+                Encoding ASCII = Encoding.ASCII;
+                Byte [] ByteGet = ASCII.GetBytes (GET);
+                Byte [] RecvBytes = new Byte [256];
+
+                Int32 bytesend = 0;
+                //String strRetPage = null;
+
+                //bool b = client.Poll (100, SelectMode.SelectRead);
+
+                if (client.Connected)
                 {
-                    InvokeIfRequired (lvLivestatusData, (MethodInvoker) delegate ()
+                    //Send (client, GET);
+                    //sendDone.WaitOne ();
+
+                    //stopWatch.Start ();
+
+                    bytesend = client.Send (ByteGet, ByteGet.Length, SocketFlags.None);
+                    client.Shutdown (SocketShutdown.Send);
+                    // Receive the host home page content and loop until all the data is received.
+                    //Int32 bytes = client.Receive (RecvBytes, RecvBytes.Length, 0);
+
+                    //while (bytes > 0)
+                    //{
+                    //    response = response + ASCII.GetString (RecvBytes, 0, bytes);
+                    //    bytes = client.Receive (RecvBytes, RecvBytes.Length, 0);
+                    //}
+                    //Receive the response from the remote device.
+                    Receive (client);
+                    receiveDone.WaitOne ();
+
+                    if (client != null)
                     {
-                        lvLivestatusData.Items.Add(String.Format ("Processing value {0}", i));
-                    });
-                    Thread.Sleep (10);
+                        client.Shutdown (SocketShutdown.Both);
+                        client.Close ();
+                    }
+
+                    //stopWatch.Stop ();
                 }
+
+                //  convert Unix Timestams to DateTimes
+                Debug.WriteLine (response, "DEBUG");
+
+                #region DataAusgabe
+
+                if (!string.IsNullOrWhiteSpace (response))
+                {
+                    List<String> result = new List<String> ();
+                    result.AddRange (response.Split ('\n'));
+
+                    for (int i = 0; i < result.Count; i++)
+                    {
+
+                        //  ColumnHeader Beschriftungen setzen
+                        if (i==0)
+                        {   
+                            String [] header = result [0].ToString ().Split (';'); 
+
+                            InvokeIfRequired (lvLivestatusData, (MethodInvoker) delegate ()
+                            {
+                                //lvLivestatusData.Items.Add (String.Format ("Processing value {0}", i));
+                                lvLivestatusData.Columns.Clear ();
+
+                                foreach (string item in header)
+                                {
+                                    lvLivestatusData.Columns.Add (new ColumnHeader ().Text = item);
+                                }
+
+                                //lvLivestatusData.Columns.AddRange (new ColumnHeaderCollection [] { });
+
+                            });
+                            Thread.Sleep (10);
+                            continue;
+                        }
+
+
+                        String [] temp = result [i].ToString ().Split (';');
+
+                        int iTmp;
+                        //int.TryParse (temp [2], out iTmp);
+                        //DateTimeOffset dto;
+                        //= UnixDateTime.FromUnixTimeSeconds (iTmp);
+                        //temp [2] = dto.DateTime.ToString ();
+
+                        if (temp.Length >= 4)
+                        {
+                            int.TryParse (temp [4], out iTmp);
+                            DateTimeOffset dto1 = UnixDateTime.FromUnixTimeSeconds (iTmp);
+                            temp [4] = dto1.LocalDateTime.ToString ();
+
+                            int.TryParse (temp [5], out iTmp);
+                            DateTimeOffset dto2 = UnixDateTime.FromUnixTimeSeconds (iTmp);
+                            temp [5] = dto2.DateTime.ToString ();
+
+                            result [i] = string.Join (";", temp);
+
+                        }
+                        else
+                            result [i] = string.Join (";", temp);
+
+                    }
+
+                    //// Write the response to the console.
+                    foreach (string item in result)
+                    {
+                        //Console.WriteLine ("Response received : {0}", item);
+                        InvokeIfRequired (lvLivestatusData, (MethodInvoker) delegate ()
+                        {
+                            //lvLivestatusData.Items.Add (String.Format ("Processing value {0}", i));
+                            lvLivestatusData.Items.Add (new ListViewItem(item.Split(';')));
+                        });
+                        Thread.Sleep (10);
+                    }
+
+                }
+                else
+                    Console.WriteLine ("Response received : Empty Response");
+
+
+                //int max = 10;
+
+                //while (!_shouldStop)
+                //{
+                //    for (int i = 0; i < max; i++)
+                //    {
+                //    }
+                //}
+                #endregion
+
+                //TimeSpan ts = stopWatch.Elapsed;
+                //string elapsedTime = String.Format ("{0:00}:{1:00}:{2:00}.{3:00}",
+                //ts.Hours, ts.Minutes, ts.Seconds,
+                //ts.Milliseconds / 10);
+                //Console.WriteLine ("RunTime " + elapsedTime);
+                //Console.ReadKey ();
+
+
+
+
+                //Console.WriteLine ("Starte zweiten durchlauf: ");
+
+                //client.BeginConnect (remoteEP,
+                //    new AsyncCallback (ConnectCallback), client);
+                //connectDone.WaitOne ();
+
+                //GET =
+                //"GET comments\n" +
+                //"Columns: author comment host_alias\n" +
+                //"ColumnHeaders: on\n" +
+                //"ResponseHeader: fixed16\n"
+                //;
+                //bytesend = client.Send (ByteGet, ByteGet.Length, SocketFlags.None);
+                //client.Shutdown (SocketShutdown.Send);
+
+                //Receive (client);
+                //receiveDone.WaitOne ();
+
+                //Console.WriteLine ("Response received : {0}", response);
+
+
+                //// Release the socket.
+                //if (client != null)
+                //{
+                //    client.Shutdown (SocketShutdown.Both);
+                //    client.Close ();
+                //}
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine (e.ToString ());
+                Console.ReadKey ();
             }
         }
+
+        #region Socket
+
+        private static void ConnectCallback (IAsyncResult ar)
+        {
+            try
+            {
+                // Retrieve the socket from the state object.
+                Socket client = (Socket) ar.AsyncState;
+
+                // Complete the connection.
+                client.EndConnect (ar);
+
+                Console.WriteLine ("Socket connected to {0}",
+                    client.RemoteEndPoint.ToString ());
+
+                // Signal that the connection has been made.
+                connectDone.Set ();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine (e.ToString ());
+            }
+        }
+
+        private static void Receive (Socket client)
+        {
+            try
+            {
+                // Create the state object.
+                StateObject state = new StateObject ();
+                state.workSocket = client;
+
+                // Begin receiving the data from the remote device.
+                client.BeginReceive (state.buffer, 0, StateObject.BufferSize, 0,
+                    new AsyncCallback (ReceiveCallback), state);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine (e.ToString ());
+            }
+        }
+
+        private static void ReceiveCallback (IAsyncResult ar)
+        {
+            try
+            {
+                // Retrieve the state object and the client socket 
+                // from the asynchronous state object.
+                StateObject state = (StateObject) ar.AsyncState;
+                Socket client = state.workSocket;
+
+
+                // Read data from the remote device.
+                int bytesRead = client.EndReceive (ar);
+
+                if (bytesRead > 0)
+                {
+                    // There might be more data, so store the data received so far.
+                    state.sb.Append (Encoding.ASCII.GetString (state.buffer, 0, bytesRead));
+
+                    // Get the rest of the data.
+                    client.BeginReceive (state.buffer, 0, StateObject.BufferSize, 0,
+                        new AsyncCallback (ReceiveCallback), state);
+                }
+                else
+                {
+                    // All the data has arrived; put it in response.
+                    if (state.sb.Length > 1)
+                    {
+                        response = state.sb.ToString ();
+                    }
+                    // Signal that all bytes have been received.
+                    receiveDone.Set ();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine (e.ToString ());
+            }
+        }
+
+        private static void Send (Socket client, String data)
+        {
+            // Convert the string data to byte data using ASCII encoding.
+            byte [] byteData = Encoding.ASCII.GetBytes (data);
+
+            // Begin sending the data to the remote device.
+            client.BeginSend (byteData, 0, byteData.Length, 0,
+                new AsyncCallback (SendCallback), client);
+        }
+
+        private static void SendCallback (IAsyncResult ar)
+        {
+            try
+            {
+                // Retrieve the socket from the state object.
+                Socket client = (Socket) ar.AsyncState;
+
+                // Complete sending the data to the remote device.
+                int bytesSent = client.EndSend (ar);
+                Console.WriteLine ("Sent {0} bytes to server.", bytesSent);
+
+                // Signal that all bytes have been sent.
+                sendDone.Set ();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine (e.ToString ());
+            }
+        }
+
+        #endregion
     }
+
 
     // State object for receiving data from remote device.
     public class StateObject
