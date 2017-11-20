@@ -19,11 +19,13 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using ClassHelperUtils;
 using static System.Windows.Forms.ListView;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace MK_Livestatus_GUI
 {
 
-    enum MK_LiveStatusObjectTypes : int
+    public enum E_MK_LiveStatusObjectTypes : int
     {
         None = 0,
         String = 1,
@@ -37,7 +39,7 @@ namespace MK_Livestatus_GUI
         Dict
     }
 
-    enum MK_LivestatusTables : int
+    public enum E_MK_LivestatusTables : int
     {
         None = 0,
         Columns,
@@ -1002,6 +1004,102 @@ namespace MK_Livestatus_GUI
         }
 
         #endregion
+    }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public class MK_Livestatus
+    {
+        private int livefieldID;
+        [JsonProperty ("livefieldID", Required = Required.Default)]
+        public int LivefieldID
+        {
+            get
+            {
+                return livefieldID;
+            }
+
+            set
+            {
+                livefieldID = value;
+            }
+        }
+
+        private E_MK_LivestatusTables livefieldTable;
+        [JsonProperty ("livefieldTable", Required = Required.Default)]
+        [JsonConverter (typeof (EnumConverter))]
+        public E_MK_LivestatusTables LivefieldTable
+        {
+            get
+            {
+                return livefieldTable;
+            }
+
+            set
+            {
+                livefieldTable = value;
+            }
+        }
+
+        private string livefieldName;
+        [JsonProperty ("livefieldName", Required = Required.Default)]
+        public string LivefieldName
+        {
+            get
+            {
+                return livefieldName;
+            }
+
+            set
+            {
+                livefieldName = value;
+            }
+        }
+
+        private E_MK_LiveStatusObjectTypes livefieldTypeID;
+        [JsonProperty ("livefieldTypeID", Required = Required.Default)]
+        [JsonConverter (typeof (EnumConverter))]
+        public E_MK_LiveStatusObjectTypes LivefieldTypeID
+        {
+            get
+            {
+                return livefieldTypeID;
+            }
+
+            set
+            {
+                livefieldTypeID = value;
+            }
+        }
+
+        private string livefieldDescription;
+        [JsonProperty ("livefieldDescription", Required = Required.Default)]
+        public string LivefieldDescription
+        {
+            get
+            {
+                return livefieldDescription;
+            }
+
+            set
+            {
+                livefieldDescription = value;
+            }
+        }
+
+        private string liveFieldTypeName;
+        [JsonProperty ("livefieldTypeName", Required = Required.Default)]
+        public string LiveFieldTypeName
+        {
+            get
+            {
+                return liveFieldTypeName;
+            }
+
+            set
+            {
+                liveFieldTypeName = value;
+            }
+        }
     }
 
 
