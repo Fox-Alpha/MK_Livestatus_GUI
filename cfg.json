@@ -75,9 +75,9 @@
      "livefieldID":10
     ,"livefieldTable":"comments"
     ,"livefieldName":"entry_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":12
     ,"livefieldDescription":"The type of the comment: 1 is user, 2 is downtime, 3 is flap and 4 is acknowledgement"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"CommentType"
   },
   {
      "livefieldID":11
@@ -219,9 +219,9 @@
      "livefieldID":28
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_check_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":13
     ,"livefieldDescription":"Type of check (0: active, 1: passive)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"CheckType"
   },
   {
      "livefieldID":29
@@ -451,49 +451,49 @@
      "livefieldID":57
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_in_check_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its check period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":58
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_in_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":59
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_in_service_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its service period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":60
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_initial_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Initial host state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":61
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_is_executing"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"is there a host check currently running... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":62
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_is_flapping"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the host state is flapping (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":63
@@ -507,9 +507,9 @@
      "livefieldID":64
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_last_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Last hard state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":65
@@ -531,9 +531,9 @@
      "livefieldID":67
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_last_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"State before last state change"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":68
@@ -643,9 +643,9 @@
      "livefieldID":81
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_no_more_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to stop sending notifications (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":82
@@ -787,9 +787,9 @@
      "livefieldID":99
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_obsess_over_host"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"The current obsess_over_host setting... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":100
@@ -803,9 +803,9 @@
      "livefieldID":101
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_pending_flex_downtime"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether a flex downtime is pending (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":102
@@ -835,9 +835,9 @@
      "livefieldID":105
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_pnpgraph_present"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether there is a PNP4Nagios graph present for this host (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":106
@@ -907,17 +907,17 @@
      "livefieldID":114
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The current state of the host (0: up, 1: down, 2: unreachable)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":115
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_state_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"Type of the current state (0: soft, 1: hard)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":116
@@ -939,17 +939,17 @@
      "livefieldID":118
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_worst_service_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst hard state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":119
     ,"livefieldTable":"comments"
     ,"livefieldName":"host_worst_service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst soft state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":120
@@ -987,33 +987,33 @@
      "livefieldID":124
     ,"livefieldTable":"comments"
     ,"livefieldName":"is_service"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"0, if this entry is for a host, 1 if it is for a service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":125
     ,"livefieldTable":"comments"
     ,"livefieldName":"persistent"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this comment is persistent (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":126
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_accept_passive_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service accepts passive checks (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":127
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_acknowledged"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the current service problem has been acknowledged (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":128
@@ -1067,9 +1067,9 @@
      "livefieldID":134
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_check_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether freshness checks are activated (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":135
@@ -1099,9 +1099,9 @@
      "livefieldID":138
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_check_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":13
     ,"livefieldDescription":"The type of the last check (0: active, 1: passive)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"CheckType"
   },
   {
      "livefieldID":139
@@ -1275,9 +1275,9 @@
      "livefieldID":160
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_has_been_checked"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service already has been checked (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":161
@@ -1315,49 +1315,49 @@
      "livefieldID":165
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_in_check_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is currently in its check period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":166
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_in_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is currently in its notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":167
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_in_service_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this service is currently in its service period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":168
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_initial_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The initial state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":169
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_is_executing"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"is there a service check currently running... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":170
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_is_flapping"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is flapping (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":171
@@ -1371,9 +1371,9 @@
      "livefieldID":172
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_last_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The last hard state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":173
@@ -1395,9 +1395,9 @@
      "livefieldID":175
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_last_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The last state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":176
@@ -1507,9 +1507,9 @@
      "livefieldID":189
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_no_more_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to stop sending notifications (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":190
@@ -1603,9 +1603,9 @@
      "livefieldID":201
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_pnpgraph_present"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether there is a PNP4Nagios graph present for this service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":202
@@ -1651,17 +1651,17 @@
      "livefieldID":207
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The current state of the service (0: OK, 1: WARN, 2: CRITICAL, 3: UNKNOWN)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":208
     ,"livefieldTable":"comments"
     ,"livefieldName":"service_state_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"The type of the current state (0: soft, 1: hard)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":209
@@ -1763,9 +1763,9 @@
      "livefieldID":221
     ,"livefieldTable":"contacts"
     ,"livefieldName":"can_submit_commands"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Wether the contact is allowed to submit commands (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":222
@@ -1827,9 +1827,9 @@
      "livefieldID":229
     ,"livefieldTable":"contacts"
     ,"livefieldName":"in_service_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Wether the contact is currently in his/her service notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":230
@@ -1923,25 +1923,25 @@
      "livefieldID":241
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"fixed"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"A 1 if the downtime is fixed, a 0 if it is flexible"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":242
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_accept_passive_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether passive host checks are accepted (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":243
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_acknowledged"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the current host problem has been acknowledged (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":244
@@ -2011,17 +2011,17 @@
      "livefieldID":252
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_check_flapping_recovery_notification"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to check to send a recovery notification when flapping stops (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":253
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_check_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether freshness checks are activated (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":254
@@ -2051,9 +2051,9 @@
      "livefieldID":257
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_check_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"Type of check (0: active, 1: passive)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":258
@@ -2235,9 +2235,9 @@
      "livefieldID":280
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"The effective hard state of the host (eliminates a problem in hard_state)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":281
@@ -2283,33 +2283,33 @@
      "livefieldID":286
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_in_check_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its check period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":287
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_in_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":288
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_in_service_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its service period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":289
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_initial_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Initial host state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":290
@@ -2339,9 +2339,9 @@
      "livefieldID":293
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_last_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Last hard state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":294
@@ -2363,9 +2363,9 @@
      "livefieldID":296
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_last_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"State before last state change"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":297
@@ -2475,9 +2475,9 @@
      "livefieldID":310
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_no_more_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to stop sending notifications (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":311
@@ -2635,9 +2635,9 @@
      "livefieldID":330
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_pending_flex_downtime"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether a flex downtime is pending (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":331
@@ -2739,17 +2739,17 @@
      "livefieldID":343
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The current state of the host (0: up, 1: down, 2: unreachable)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":344
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_state_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"Type of the current state (0: soft, 1: hard)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":345
@@ -2771,17 +2771,17 @@
      "livefieldID":347
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_worst_service_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst hard state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":348
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"host_worst_service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst soft state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":349
@@ -2819,25 +2819,25 @@
      "livefieldID":353
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"is_service"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"0, if this entry is for a host, 1 if it is for a service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":354
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_accept_passive_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service accepts passive checks (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":355
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_acknowledged"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the current service problem has been acknowledged (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":356
@@ -2891,9 +2891,9 @@
      "livefieldID":362
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_check_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether freshness checks are activated (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":363
@@ -3099,9 +3099,9 @@
      "livefieldID":388
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_has_been_checked"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service already has been checked (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":389
@@ -3139,49 +3139,49 @@
      "livefieldID":393
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_in_check_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is currently in its check period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":394
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_in_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is currently in its notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":395
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_in_service_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this service is currently in its service period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":396
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_initial_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The initial state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":397
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_is_executing"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"is there a service check currently running... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":398
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_is_flapping"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is flapping (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":399
@@ -3195,9 +3195,9 @@
      "livefieldID":400
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_last_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The last hard state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":401
@@ -3219,9 +3219,9 @@
      "livefieldID":403
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_last_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The last state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":404
@@ -3331,9 +3331,9 @@
      "livefieldID":417
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_no_more_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to stop sending notifications (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":418
@@ -3395,9 +3395,9 @@
      "livefieldID":425
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_obsess_over_service"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether 'obsess_over_service' is enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":426
@@ -3427,9 +3427,9 @@
      "livefieldID":429
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_pnpgraph_present"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether there is a PNP4Nagios graph present for this service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":430
@@ -3475,17 +3475,17 @@
      "livefieldID":435
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The current state of the service (0: OK, 1: WARN, 2: CRITICAL, 3: UNKNOWN)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":436
     ,"livefieldTable":"downtimes"
     ,"livefieldName":"service_state_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"The type of the current state (0: soft, 1: hard)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":437
@@ -3691,41 +3691,41 @@
      "livefieldID":462
     ,"livefieldTable":"hostgroups"
     ,"livefieldName":"worst_host_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst state of all of the groups' hosts (UP <= UNREACHABLE <= DOWN)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":463
     ,"livefieldTable":"hostgroups"
     ,"livefieldName":"worst_service_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst state of all services that belong to a host of this group (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":464
     ,"livefieldTable":"hostgroups"
     ,"livefieldName":"worst_service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst state of all services that belong to a host of this group (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":465
     ,"livefieldTable":"hosts"
     ,"livefieldName":"accept_passive_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether passive host checks are accepted (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":466
     ,"livefieldTable":"hosts"
     ,"livefieldName":"acknowledged"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the current host problem has been acknowledged (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":467
@@ -3795,17 +3795,17 @@
      "livefieldID":475
     ,"livefieldTable":"hosts"
     ,"livefieldName":"check_flapping_recovery_notification"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to check to send a recovery notification when flapping stops (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":476
     ,"livefieldTable":"hosts"
     ,"livefieldName":"check_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether freshness checks are activated (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":477
@@ -3835,9 +3835,9 @@
      "livefieldID":480
     ,"livefieldTable":"hosts"
     ,"livefieldName":"check_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":13
     ,"livefieldDescription":"Type of check (0: active, 1: passive)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"CheckType"
   },
   {
      "livefieldID":481
@@ -4019,17 +4019,17 @@
      "livefieldID":503
     ,"livefieldTable":"hosts"
     ,"livefieldName":"hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The effective hard state of the host (eliminates a problem in hard_state)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":504
     ,"livefieldTable":"hosts"
     ,"livefieldName":"has_been_checked"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the host has already been checked (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":505
@@ -4067,49 +4067,49 @@
      "livefieldID":509
     ,"livefieldTable":"hosts"
     ,"livefieldName":"in_check_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its check period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":510
     ,"livefieldTable":"hosts"
     ,"livefieldName":"in_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":511
     ,"livefieldTable":"hosts"
     ,"livefieldName":"in_service_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its service period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":512
     ,"livefieldTable":"hosts"
     ,"livefieldName":"initial_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Initial host state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":513
     ,"livefieldTable":"hosts"
     ,"livefieldName":"is_executing"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"is there a host check currently running... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":514
     ,"livefieldTable":"hosts"
     ,"livefieldName":"is_flapping"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the host state is flapping (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":515
@@ -4123,9 +4123,9 @@
      "livefieldID":516
     ,"livefieldTable":"hosts"
     ,"livefieldName":"last_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Last hard state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":517
@@ -4147,9 +4147,9 @@
      "livefieldID":519
     ,"livefieldTable":"hosts"
     ,"livefieldName":"last_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"State before last state change"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":520
@@ -4259,9 +4259,9 @@
      "livefieldID":533
     ,"livefieldTable":"hosts"
     ,"livefieldName":"no_more_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to stop sending notifications (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":534
@@ -4403,9 +4403,9 @@
      "livefieldID":551
     ,"livefieldTable":"hosts"
     ,"livefieldName":"obsess_over_host"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"The current obsess_over_host setting... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":552
@@ -4419,9 +4419,9 @@
      "livefieldID":553
     ,"livefieldTable":"hosts"
     ,"livefieldName":"pending_flex_downtime"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether a flex downtime is pending (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":554
@@ -4451,9 +4451,9 @@
      "livefieldID":557
     ,"livefieldTable":"hosts"
     ,"livefieldName":"pnpgraph_present"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether there is a PNP4Nagios graph present for this host (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":558
@@ -4523,17 +4523,17 @@
      "livefieldID":566
     ,"livefieldTable":"hosts"
     ,"livefieldName":"state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The current state of the host (0: up, 1: down, 2: unreachable)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":567
     ,"livefieldTable":"hosts"
     ,"livefieldName":"state_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"Type of the current state (0: soft, 1: hard)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":568
@@ -4555,17 +4555,17 @@
      "livefieldID":570
     ,"livefieldTable":"hosts"
     ,"livefieldName":"worst_service_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst hard state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":571
     ,"livefieldTable":"hosts"
     ,"livefieldName":"worst_service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst soft state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":572
@@ -4595,17 +4595,17 @@
      "livefieldID":575
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"accept_passive_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether passive host checks are accepted (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":576
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"acknowledged"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the current host problem has been acknowledged (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":577
@@ -4675,17 +4675,17 @@
      "livefieldID":585
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"check_flapping_recovery_notification"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to check to send a recovery notification when flapping stops (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":586
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"check_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether freshness checks are activated (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":587
@@ -4715,9 +4715,9 @@
      "livefieldID":590
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"check_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":13
     ,"livefieldDescription":"Type of check (0: active, 1: passive)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"CheckType"
   },
   {
      "livefieldID":591
@@ -4899,17 +4899,17 @@
      "livefieldID":613
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The effective hard state of the host (eliminates a problem in hard_state)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":614
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"has_been_checked"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the host has already been checked (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":615
@@ -5099,25 +5099,25 @@
      "livefieldID":638
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"hostgroup_worst_host_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst state of all of the groups' hosts (UP <= UNREACHABLE <= DOWN)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":639
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"hostgroup_worst_service_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst state of all services that belong to a host of this group (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":640
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"hostgroup_worst_service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst state of all services that belong to a host of this group (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":641
@@ -5147,49 +5147,49 @@
      "livefieldID":644
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"in_check_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its check period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":645
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"in_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":646
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"in_service_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its service period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":647
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"initial_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Initial host state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":648
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"is_executing"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"is there a host check currently running... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":649
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"is_flapping"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the host state is flapping (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":650
@@ -5203,9 +5203,9 @@
      "livefieldID":651
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"last_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Last hard state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":652
@@ -5227,9 +5227,9 @@
      "livefieldID":654
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"last_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"State before last state change"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":655
@@ -5339,9 +5339,9 @@
      "livefieldID":668
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"no_more_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to stop sending notifications (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":669
@@ -5499,9 +5499,9 @@
      "livefieldID":688
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"pending_flex_downtime"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether a flex downtime is pending (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":689
@@ -5531,17 +5531,17 @@
      "livefieldID":692
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"pnpgraph_present"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether there is a PNP4Nagios graph present for this host (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":693
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"process_performance_data"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether processing of performance data is enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":694
@@ -5603,17 +5603,17 @@
      "livefieldID":701
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The current state of the host (0: up, 1: down, 2: unreachable)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":702
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"state_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"Type of the current state (0: soft, 1: hard)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":703
@@ -5635,17 +5635,17 @@
      "livefieldID":705
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"worst_service_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst hard state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":706
     ,"livefieldTable":"hostsbygroup"
     ,"livefieldName":"worst_service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst soft state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":707
@@ -5787,9 +5787,9 @@
      "livefieldID":724
     ,"livefieldTable":"log"
     ,"livefieldName":"current_contact_can_submit_commands"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Wether the contact is allowed to submit commands (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":725
@@ -5835,25 +5835,25 @@
      "livefieldID":730
     ,"livefieldTable":"log"
     ,"livefieldName":"current_contact_host_notifications_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Wether the contact will be notified about host problems in general (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":731
     ,"livefieldTable":"log"
     ,"livefieldName":"current_contact_in_host_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Wether the contact is currently in his/her host notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":732
     ,"livefieldTable":"log"
     ,"livefieldName":"current_contact_in_service_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Wether the contact is currently in his/her service notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":733
@@ -5899,25 +5899,25 @@
      "livefieldID":738
     ,"livefieldTable":"log"
     ,"livefieldName":"current_contact_service_notifications_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Wether the contact will be notified about service problems in general (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":739
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_accept_passive_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether passive host checks are accepted (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":740
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_acknowledged"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the current host problem has been acknowledged (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":741
@@ -5947,9 +5947,9 @@
      "livefieldID":744
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_active_checks_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether active checks are enabled for the host (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":745
@@ -5987,17 +5987,17 @@
      "livefieldID":749
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_check_flapping_recovery_notification"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to check to send a recovery notification when flapping stops (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":750
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_check_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether freshness checks are activated (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":751
@@ -6027,17 +6027,17 @@
      "livefieldID":754
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_check_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":13
     ,"livefieldDescription":"Type of check (0: active, 1: passive)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"CheckType"
   },
   {
      "livefieldID":755
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_checks_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether checks of the host are enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":756
@@ -6163,9 +6163,9 @@
      "livefieldID":771
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_event_handler_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether event handling is enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":772
@@ -6195,9 +6195,9 @@
      "livefieldID":775
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_flap_detection_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether flap detection is enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":776
@@ -6211,17 +6211,17 @@
      "livefieldID":777
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The effective hard state of the host (eliminates a problem in hard_state)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":778
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_has_been_checked"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the host has already been checked (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":779
@@ -6259,49 +6259,49 @@
      "livefieldID":783
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_in_check_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its check period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":784
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_in_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":785
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_in_service_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its service period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":786
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_initial_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Initial host state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":787
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_is_executing"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"is there a host check currently running... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":788
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_is_flapping"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the host state is flapping (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":789
@@ -6315,9 +6315,9 @@
      "livefieldID":790
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_last_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Last hard state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":791
@@ -6339,9 +6339,9 @@
      "livefieldID":793
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_last_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"State before last state change"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":794
@@ -6451,9 +6451,9 @@
      "livefieldID":807
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_no_more_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to stop sending notifications (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":808
@@ -6507,9 +6507,9 @@
      "livefieldID":814
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_notifications_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether notifications of the host are enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":815
@@ -6595,9 +6595,9 @@
      "livefieldID":825
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_obsess_over_host"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"The current obsess_over_host setting... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":826
@@ -6611,9 +6611,9 @@
      "livefieldID":827
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_pending_flex_downtime"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether a flex downtime is pending (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":828
@@ -6643,17 +6643,17 @@
      "livefieldID":831
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_pnpgraph_present"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether there is a PNP4Nagios graph present for this host (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":832
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_process_performance_data"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether processing of performance data is enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":833
@@ -6715,17 +6715,17 @@
      "livefieldID":840
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The current state of the host (0: up, 1: down, 2: unreachable)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":841
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_state_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"Type of the current state (0: soft, 1: hard)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":842
@@ -6747,17 +6747,17 @@
      "livefieldID":844
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_worst_service_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst hard state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":845
     ,"livefieldTable":"log"
     ,"livefieldName":"current_host_worst_service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst soft state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":846
@@ -6787,17 +6787,17 @@
      "livefieldID":849
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_accept_passive_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service accepts passive checks (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":850
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_acknowledged"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the current service problem has been acknowledged (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":851
@@ -6827,9 +6827,9 @@
      "livefieldID":854
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_active_checks_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether active checks are enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":855
@@ -6851,9 +6851,9 @@
      "livefieldID":857
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_check_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether freshness checks are activated (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":858
@@ -6883,17 +6883,17 @@
      "livefieldID":861
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_check_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":13
     ,"livefieldDescription":"The type of the last check (0: active, 1: passive)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"CheckType"
   },
   {
      "livefieldID":862
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_checks_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether active checks are enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":863
@@ -7019,9 +7019,9 @@
      "livefieldID":878
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_event_handler_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether and event handler is activated for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":879
@@ -7043,9 +7043,9 @@
      "livefieldID":881
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_flap_detection_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether flap detection is enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":882
@@ -7059,9 +7059,9 @@
      "livefieldID":883
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_has_been_checked"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service already has been checked (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":884
@@ -7099,49 +7099,49 @@
      "livefieldID":888
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_in_check_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is currently in its check period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":889
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_in_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is currently in its notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":890
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_in_service_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this service is currently in its service period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":891
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_initial_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The initial state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":892
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_is_executing"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"is there a service check currently running... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":893
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_is_flapping"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is flapping (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":894
@@ -7155,9 +7155,9 @@
      "livefieldID":895
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_last_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The last hard state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":896
@@ -7179,9 +7179,9 @@
      "livefieldID":898
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_last_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The last state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":899
@@ -7291,9 +7291,9 @@
      "livefieldID":912
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_no_more_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to stop sending notifications (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":913
@@ -7347,17 +7347,17 @@
      "livefieldID":919
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_notifications_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether notifications are enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":920
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_obsess_over_service"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether 'obsess_over_service' is enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":921
@@ -7387,17 +7387,17 @@
      "livefieldID":924
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_pnpgraph_present"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether there is a PNP4Nagios graph present for this service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":925
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_process_performance_data"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether processing of performance data is enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":926
@@ -7435,17 +7435,17 @@
      "livefieldID":930
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The current state of the service (0: OK, 1: WARN, 2: CRITICAL, 3: UNKNOWN)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":931
     ,"livefieldTable":"log"
     ,"livefieldName":"current_service_state_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"The type of the current state (0: soft, 1: hard)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":932
@@ -7499,9 +7499,9 @@
      "livefieldID":938
     ,"livefieldTable":"log"
     ,"livefieldName":"state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The state of the host or service in question"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":939
@@ -7517,7 +7517,7 @@
     ,"livefieldName":"time"
     ,"livefieldTypeID":4
     ,"livefieldDescription":"Time of the log event (UNIX timestamp)"
-    ,"liveFieldTypeName":"time"
+    ,"liveFieldTypeName":"Time"
   },
   {
      "livefieldID":941
@@ -7667,25 +7667,25 @@
      "livefieldID":959
     ,"livefieldTable":"servicegroups"
     ,"livefieldName":"worst_service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst soft state of all of the groups services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":960
     ,"livefieldTable":"services"
     ,"livefieldName":"accept_passive_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service accepts passive checks (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":961
     ,"livefieldTable":"services"
     ,"livefieldName":"acknowledged"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the current service problem has been acknowledged (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":962
@@ -7715,9 +7715,9 @@
      "livefieldID":965
     ,"livefieldTable":"services"
     ,"livefieldName":"active_checks_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether active checks are enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":966
@@ -7739,9 +7739,9 @@
      "livefieldID":968
     ,"livefieldTable":"services"
     ,"livefieldName":"check_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether freshness checks are activated (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":969
@@ -7755,9 +7755,9 @@
      "livefieldID":970
     ,"livefieldTable":"services"
     ,"livefieldName":"check_options"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"The current check option, forced, normal, freshness... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":971
@@ -7771,17 +7771,17 @@
      "livefieldID":972
     ,"livefieldTable":"services"
     ,"livefieldName":"check_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":13
     ,"livefieldDescription":"The type of the last check (0: active, 1: passive)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"CheckType"
   },
   {
      "livefieldID":973
     ,"livefieldTable":"services"
     ,"livefieldName":"checks_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether active checks are enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":974
@@ -7907,9 +7907,9 @@
      "livefieldID":989
     ,"livefieldTable":"services"
     ,"livefieldName":"event_handler_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether and event handler is activated for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":990
@@ -7931,9 +7931,9 @@
      "livefieldID":992
     ,"livefieldTable":"services"
     ,"livefieldName":"flap_detection_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether flap detection is enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":993
@@ -7947,9 +7947,9 @@
      "livefieldID":994
     ,"livefieldTable":"services"
     ,"livefieldName":"has_been_checked"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service already has been checked (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":995
@@ -7963,17 +7963,17 @@
      "livefieldID":996
     ,"livefieldTable":"services"
     ,"livefieldName":"host_accept_passive_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether passive host checks are accepted (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":997
     ,"livefieldTable":"services"
     ,"livefieldName":"host_acknowledged"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the current host problem has been acknowledged (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":998
@@ -8003,9 +8003,9 @@
      "livefieldID":1001
     ,"livefieldTable":"services"
     ,"livefieldName":"host_active_checks_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether active checks are enabled for the host (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1002
@@ -8043,17 +8043,17 @@
      "livefieldID":1006
     ,"livefieldTable":"services"
     ,"livefieldName":"host_check_flapping_recovery_notification"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to check to send a recovery notification when flapping stops (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1007
     ,"livefieldTable":"services"
     ,"livefieldName":"host_check_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether freshness checks are activated (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1008
@@ -8083,17 +8083,17 @@
      "livefieldID":1011
     ,"livefieldTable":"services"
     ,"livefieldName":"host_check_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":13
     ,"livefieldDescription":"Type of check (0: active, 1: passive)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"CheckType"
   },
   {
      "livefieldID":1012
     ,"livefieldTable":"services"
     ,"livefieldName":"host_checks_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether checks of the host are enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1013
@@ -8219,9 +8219,9 @@
      "livefieldID":1028
     ,"livefieldTable":"services"
     ,"livefieldName":"host_event_handler_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether event handling is enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1029
@@ -8251,9 +8251,9 @@
      "livefieldID":1032
     ,"livefieldTable":"services"
     ,"livefieldName":"host_flap_detection_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether flap detection is enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1033
@@ -8267,17 +8267,17 @@
      "livefieldID":1034
     ,"livefieldTable":"services"
     ,"livefieldName":"host_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The effective hard state of the host (eliminates a problem in hard_state)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1035
     ,"livefieldTable":"services"
     ,"livefieldName":"host_has_been_checked"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the host has already been checked (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1036
@@ -8315,49 +8315,49 @@
      "livefieldID":1040
     ,"livefieldTable":"services"
     ,"livefieldName":"host_in_check_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its check period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1041
     ,"livefieldTable":"services"
     ,"livefieldName":"host_in_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1042
     ,"livefieldTable":"services"
     ,"livefieldName":"host_in_service_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its service period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1043
     ,"livefieldTable":"services"
     ,"livefieldName":"host_initial_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Initial host state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1044
     ,"livefieldTable":"services"
     ,"livefieldName":"host_is_executing"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"is there a host check currently running... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1045
     ,"livefieldTable":"services"
     ,"livefieldName":"host_is_flapping"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the host state is flapping (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1046
@@ -8371,9 +8371,9 @@
      "livefieldID":1047
     ,"livefieldTable":"services"
     ,"livefieldName":"host_last_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Last hard state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1048
@@ -8395,9 +8395,9 @@
      "livefieldID":1050
     ,"livefieldTable":"services"
     ,"livefieldName":"host_last_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"State before last state change"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1051
@@ -8507,9 +8507,9 @@
      "livefieldID":1064
     ,"livefieldTable":"services"
     ,"livefieldName":"host_no_more_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to stop sending notifications (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1065
@@ -8563,9 +8563,9 @@
      "livefieldID":1071
     ,"livefieldTable":"services"
     ,"livefieldName":"host_notifications_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether notifications of the host are enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1072
@@ -8651,9 +8651,9 @@
      "livefieldID":1082
     ,"livefieldTable":"services"
     ,"livefieldName":"host_obsess_over_host"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"The current obsess_over_host setting... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1083
@@ -8667,9 +8667,9 @@
      "livefieldID":1084
     ,"livefieldTable":"services"
     ,"livefieldName":"host_pending_flex_downtime"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether a flex downtime is pending (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1085
@@ -8699,17 +8699,17 @@
      "livefieldID":1088
     ,"livefieldTable":"services"
     ,"livefieldName":"host_pnpgraph_present"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether there is a PNP4Nagios graph present for this host (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1089
     ,"livefieldTable":"services"
     ,"livefieldName":"host_process_performance_data"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether processing of performance data is enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1090
@@ -8771,17 +8771,17 @@
      "livefieldID":1097
     ,"livefieldTable":"services"
     ,"livefieldName":"host_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The current state of the host (0: up, 1: down, 2: unreachable)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1098
     ,"livefieldTable":"services"
     ,"livefieldName":"host_state_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"Type of the current state (0: soft, 1: hard)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":1099
@@ -8803,17 +8803,17 @@
      "livefieldID":1101
     ,"livefieldTable":"services"
     ,"livefieldName":"host_worst_service_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst hard state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1102
     ,"livefieldTable":"services"
     ,"livefieldName":"host_worst_service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst soft state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1103
@@ -8867,49 +8867,49 @@
      "livefieldID":1109
     ,"livefieldTable":"services"
     ,"livefieldName":"in_check_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is currently in its check period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1110
     ,"livefieldTable":"services"
     ,"livefieldName":"in_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is currently in its notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1111
     ,"livefieldTable":"services"
     ,"livefieldName":"in_service_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this service is currently in its service period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1112
     ,"livefieldTable":"services"
     ,"livefieldName":"initial_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The initial state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1113
     ,"livefieldTable":"services"
     ,"livefieldName":"is_executing"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"is there a service check currently running... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1114
     ,"livefieldTable":"services"
     ,"livefieldName":"is_flapping"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is flapping (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1115
@@ -8923,9 +8923,9 @@
      "livefieldID":1116
     ,"livefieldTable":"services"
     ,"livefieldName":"last_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The last hard state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1117
@@ -8947,9 +8947,9 @@
      "livefieldID":1119
     ,"livefieldTable":"services"
     ,"livefieldName":"last_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The last state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1120
@@ -9059,9 +9059,9 @@
      "livefieldID":1133
     ,"livefieldTable":"services"
     ,"livefieldName":"no_more_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to stop sending notifications (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1134
@@ -9115,17 +9115,17 @@
      "livefieldID":1140
     ,"livefieldTable":"services"
     ,"livefieldName":"notifications_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether notifications are enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1141
     ,"livefieldTable":"services"
     ,"livefieldName":"obsess_over_service"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether 'obsess_over_service' is enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1142
@@ -9155,17 +9155,17 @@
      "livefieldID":1145
     ,"livefieldTable":"services"
     ,"livefieldName":"pnpgraph_present"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether there is a PNP4Nagios graph present for this service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1146
     ,"livefieldTable":"services"
     ,"livefieldName":"process_performance_data"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether processing of performance data is enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1147
@@ -9203,33 +9203,33 @@
      "livefieldID":1151
     ,"livefieldTable":"services"
     ,"livefieldName":"state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The current state of the service (0: OK, 1: WARN, 2: CRITICAL, 3: UNKNOWN)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1152
     ,"livefieldTable":"services"
     ,"livefieldName":"state_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"The type of the current state (0: soft, 1: hard)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":1153
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"accept_passive_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service accepts passive checks (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1154
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"acknowledged"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the current service problem has been acknowledged (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1155
@@ -9259,9 +9259,9 @@
      "livefieldID":1158
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"active_checks_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether active checks are enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1159
@@ -9283,9 +9283,9 @@
      "livefieldID":1161
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"check_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether freshness checks are activated (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1162
@@ -9315,17 +9315,17 @@
      "livefieldID":1165
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"check_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":13
     ,"livefieldDescription":"The type of the last check (0: active, 1: passive)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"CheckType"
   },
   {
      "livefieldID":1166
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"checks_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether active checks are enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1167
@@ -9451,9 +9451,9 @@
      "livefieldID":1182
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"event_handler_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether and event handler is activated for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1183
@@ -9475,9 +9475,9 @@
      "livefieldID":1185
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"flap_detection_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether flap detection is enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1186
@@ -9491,9 +9491,9 @@
      "livefieldID":1187
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"has_been_checked"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service already has been checked (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1188
@@ -9507,17 +9507,17 @@
      "livefieldID":1189
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_accept_passive_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether passive host checks are accepted (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1190
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_acknowledged"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the current host problem has been acknowledged (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1191
@@ -9547,9 +9547,9 @@
      "livefieldID":1194
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_active_checks_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether active checks are enabled for the host (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1195
@@ -9587,17 +9587,17 @@
      "livefieldID":1199
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_check_flapping_recovery_notification"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":33
     ,"livefieldDescription":"Whether to check to send a recovery notification when flapping stops (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"#NV"
   },
   {
      "livefieldID":1200
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_check_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether freshness checks are activated (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1201
@@ -9627,17 +9627,17 @@
      "livefieldID":1204
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_check_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":13
     ,"livefieldDescription":"Type of check (0: active, 1: passive)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"CheckType"
   },
   {
      "livefieldID":1205
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_checks_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether checks of the host are enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1206
@@ -9763,9 +9763,9 @@
      "livefieldID":1221
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_event_handler_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether event handling is enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1222
@@ -9795,9 +9795,9 @@
      "livefieldID":1225
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_flap_detection_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether flap detection is enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1226
@@ -9811,17 +9811,17 @@
      "livefieldID":1227
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The effective hard state of the host (eliminates a problem in hard_state)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1228
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_has_been_checked"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the host has already been checked (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1229
@@ -9859,49 +9859,49 @@
      "livefieldID":1233
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_in_check_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its check period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1234
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_in_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1235
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_in_service_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this host is currently in its service period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1236
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_initial_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Initial host state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1237
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_is_executing"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"is there a host check currently running... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1238
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_is_flapping"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the host state is flapping (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1239
@@ -9915,9 +9915,9 @@
      "livefieldID":1240
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_last_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"Last hard state"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1241
@@ -9939,9 +9939,9 @@
      "livefieldID":1243
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_last_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"State before last state change"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1244
@@ -10051,9 +10051,9 @@
      "livefieldID":1257
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_no_more_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to stop sending notifications (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1258
@@ -10107,9 +10107,9 @@
      "livefieldID":1264
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_notifications_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether notifications of the host are enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1265
@@ -10195,9 +10195,9 @@
      "livefieldID":1275
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_obsess_over_host"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"The current obsess_over_host setting... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1276
@@ -10211,9 +10211,9 @@
      "livefieldID":1277
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_pending_flex_downtime"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether a flex downtime is pending (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1278
@@ -10243,17 +10243,17 @@
      "livefieldID":1281
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_pnpgraph_present"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether there is a PNP4Nagios graph present for this host (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1282
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_process_performance_data"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether processing of performance data is enabled (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1283
@@ -10315,17 +10315,17 @@
      "livefieldID":1290
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The current state of the host (0: up, 1: down, 2: unreachable)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1291
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_state_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":13
     ,"livefieldDescription":"Type of the current state (0: soft, 1: hard)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"CheckType"
   },
   {
      "livefieldID":1292
@@ -10347,17 +10347,17 @@
      "livefieldID":1294
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_worst_service_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst hard state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1295
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"host_worst_service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst soft state of all of the host's services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1296
@@ -10411,49 +10411,49 @@
      "livefieldID":1302
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"in_check_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is currently in its check period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1303
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"in_notification_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is currently in its notification period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1304
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"in_service_period"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether this service is currently in its service period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1305
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"initial_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The initial state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1306
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"is_executing"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"is there a service check currently running... (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1307
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"is_flapping"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether the service is flapping (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1308
@@ -10467,9 +10467,9 @@
      "livefieldID":1309
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"last_hard_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The last hard state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1310
@@ -10491,9 +10491,9 @@
      "livefieldID":1312
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"last_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The last state of the service"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1313
@@ -10603,9 +10603,9 @@
      "livefieldID":1326
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"no_more_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether to stop sending notifications (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1327
@@ -10659,17 +10659,17 @@
      "livefieldID":1333
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"notifications_enabled"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether notifications are enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1334
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"obsess_over_service"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether 'obsess_over_service' is enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1335
@@ -10699,17 +10699,17 @@
      "livefieldID":1338
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"pnpgraph_present"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether there is a PNP4Nagios graph present for this service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1339
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"process_performance_data"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether processing of performance data is enabled for the service (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1340
@@ -10875,9 +10875,9 @@
      "livefieldID":1360
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"servicegroup_worst_service_state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The worst soft state of all of the groups services (OK <= WARN <= UNKNOWN <= CRIT)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1361
@@ -10891,17 +10891,17 @@
      "livefieldID":1362
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"state"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":10
     ,"livefieldDescription":"The current state of the service (0: OK, 1: WARN, 2: CRITICAL, 3: UNKNOWN)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosState"
   },
   {
      "livefieldID":1363
     ,"livefieldTable":"servicesbygroup"
     ,"livefieldName":"state_type"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":11
     ,"livefieldDescription":"The type of the current state (0: soft, 1: hard)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"NagiosStateType"
   },
   {
      "livefieldID":1364
@@ -14413,7 +14413,7 @@
     ,"livefieldName":"time"
     ,"livefieldTypeID":4
     ,"livefieldDescription":"Time of the log event (seconds since 1/1/1970)"
-    ,"liveFieldTypeName":"time"
+    ,"liveFieldTypeName":"Time"
   },
   {
      "livefieldID":1803
@@ -14427,17 +14427,17 @@
      "livefieldID":1804
     ,"livefieldTable":"status"
     ,"livefieldName":"accept_passive_host_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether passive host checks are accepted in general (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1805
     ,"livefieldTable":"status"
     ,"livefieldName":"accept_passive_service_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether passive service checks are activated in general (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1806
@@ -14451,25 +14451,25 @@
      "livefieldID":1807
     ,"livefieldTable":"status"
     ,"livefieldName":"check_external_commands"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether Nagios checks for external commands at its command pipe (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1808
     ,"livefieldTable":"status"
     ,"livefieldName":"check_host_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether host freshness checking is activated in general (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1809
     ,"livefieldTable":"status"
     ,"livefieldName":"check_service_freshness"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether service freshness checking is activated in general (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1810
@@ -14491,41 +14491,41 @@
      "livefieldID":1812
     ,"livefieldTable":"status"
     ,"livefieldName":"enable_event_handlers"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether event handlers are activated in general (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1813
     ,"livefieldTable":"status"
     ,"livefieldName":"enable_flap_detection"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether flap detection is activated in general (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1814
     ,"livefieldTable":"status"
     ,"livefieldName":"enable_notifications"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether notifications are enabled in general (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1815
     ,"livefieldTable":"status"
     ,"livefieldName":"execute_host_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether host checks are executed in general (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1816
     ,"livefieldTable":"status"
     ,"livefieldName":"execute_service_checks"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether active service checks are activated in general (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1817
@@ -14747,25 +14747,25 @@
      "livefieldID":1844
     ,"livefieldTable":"status"
     ,"livefieldName":"obsess_over_hosts"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether Nagios will obsess over host checks (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1845
     ,"livefieldTable":"status"
     ,"livefieldName":"obsess_over_services"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether Nagios will obsess over service checks and run the ocsp_command (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1846
     ,"livefieldTable":"status"
     ,"livefieldName":"process_performance_data"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Whether processing of performance data is activated in general (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1847
@@ -14827,9 +14827,9 @@
      "livefieldID":1854
     ,"livefieldTable":"timeperiods"
     ,"livefieldName":"in"
-    ,"livefieldTypeID":2
+    ,"livefieldTypeID":3
     ,"livefieldDescription":"Wether we are currently in this period (0/1)"
-    ,"liveFieldTypeName":"Integer"
+    ,"liveFieldTypeName":"Boolean"
   },
   {
      "livefieldID":1855
