@@ -24,6 +24,9 @@ using Newtonsoft.Json.Converters;
 
 namespace MK_Livestatus_GUI
 {
+    /// <summary>
+    /// Unterscheidung des Status von Hostst
+    /// </summary>
     public enum E_MK_LiveStatusNagiosStateHost : int
     {
         Up = 0,
@@ -32,6 +35,10 @@ namespace MK_Livestatus_GUI
         Unknown = 3,
         Pending,
     }
+
+    /// <summary>
+    /// Unterscheidung des Status von Services
+    /// </summary>
     public enum E_MK_LiveStatusNagiosStateService : int
     {
         OK = 0,
@@ -40,13 +47,28 @@ namespace MK_Livestatus_GUI
         Unknown = 3,
         // Pending, Wenn Check noch nicht ausgeführt wurde
     }
+
+    /// <summary>
+    /// Typus des Status HARD | SOFT
+    /// </summary>
     public enum E_MK_LiveStatusNagiosStateType : int
     {
-        Hard = 0,
-        Soft = 1,
+        Soft = 0,
+        Hard = 1
     }
 
-    //  The type of the comment: 1 is user, 2 is downtime, 3 is flap and 4 is acknowledgement
+    /// <summary>
+    /// Typus des Status HARD | SOFT
+    /// </summary>
+    public enum E_MK_LiveStatusNagiosCheckType : int
+    {
+        Active = 0,
+        Passive = 1,
+    }
+
+    /// <summary>
+    /// The type of the comment: 1 is user, 2 is downtime, 3 is flap and 4 is acknowledgement
+    /// </summary>
     public enum E_MK_LivestatusCommentType : int
     {
         User = 1,
@@ -55,6 +77,10 @@ namespace MK_Livestatus_GUI
         Acknowledge
     }
 
+    /// <summary>
+    /// Datentypen die zurückgegeben werden könnten
+    /// Zur Unterscheidung um diese besser anzeigen zu können
+    /// </summary>
     public enum E_MK_LiveStatusObjectTypes : int
     {
         None = 0,
@@ -69,9 +95,14 @@ namespace MK_Livestatus_GUI
         Dict,
         NagiosState,
         NagiosStateType,
-        CommentType
+        CommentType,
+        CheckType
     }
 
+    /// <summary>
+    /// Tabellenname von der die Daten abgefragt werden
+    /// z.B. per Switch Unterscheidung
+    /// </summary>
     public enum E_MK_LivestatusTables : int
     {
         None = 0,
@@ -268,7 +299,7 @@ namespace MK_Livestatus_GUI
         #endregion
 
         //  Funktionen zum Auswerten, aufbereiten und Anzeigen der Daten
-        #region DataDisplay
+        #region listViewGroups
 
         // Creates a Hashtable object with one entry for each unique
         // subitem value (or initial letter for the parent item)
@@ -469,6 +500,40 @@ namespace MK_Livestatus_GUI
 
         }
 
+        private void button1_Click (object sender, EventArgs e)
+        {
+            Stopwatch sw = Stopwatch.StartNew ();
+
+            lvLivestatusData.Items.Clear ();
+            //foreach (string item in GetDirGreaterThen24h(@"c:\temp\08154711"))
+            foreach (string item in GetDirGreaterThen24h(@"\\HH-VS-PR-002\verarb\"))
+            {
+                lvLivestatusData.Items.Add (new ListViewItem(item)).SubItems.Add(new DirectoryInfo(item).CreationTime.ToString());
+
+            }
+
+            Debug.WriteLine (sw.Elapsed.ToString ());
+
+            if (isRunningXPOrLater)
+            {
+                // Create the groupsTable array and populate it with one 
+                // hash table for each column.
+                groupTables = new Hashtable [lvLivestatusData.Columns.Count];
+                for (int column = 0; column < lvLivestatusData.Columns.Count; column++)
+                {
+                    // Create a hash table containing all the groups 
+                    // needed for a single column.
+                    groupTables [column] = CreateGroupsTable (column);
+                    lvLivestatusData.Columns [column].ImageKey = "FullGreen";
+                }
+
+                // Start with the groups created for the Title column.
+                SetGroups (0);
+            }
+
+            toolStripStatusLabel1.Text = string.Format("Es wurden {0} Verzeichnisse gefunden",  lvLivestatusData.Items.Count.ToString ());
+        }
+
         #endregion
 
         //  Verwaltung der Server Verbindungsdaten
@@ -624,39 +689,7 @@ namespace MK_Livestatus_GUI
         }
         #endregion
 
-        private void button1_Click (object sender, EventArgs e)
-        {
-            Stopwatch sw = Stopwatch.StartNew ();
-
-            lvLivestatusData.Items.Clear ();
-            //foreach (string item in GetDirGreaterThen24h(@"c:\temp\08154711"))
-            foreach (string item in GetDirGreaterThen24h(@"\\HH-VS-PR-002\verarb\"))
-            {
-                lvLivestatusData.Items.Add (new ListViewItem(item)).SubItems.Add(new DirectoryInfo(item).CreationTime.ToString());
-
-            }
-
-            Debug.WriteLine (sw.Elapsed.ToString ());
-
-            if (isRunningXPOrLater)
-            {
-                // Create the groupsTable array and populate it with one 
-                // hash table for each column.
-                groupTables = new Hashtable [lvLivestatusData.Columns.Count];
-                for (int column = 0; column < lvLivestatusData.Columns.Count; column++)
-                {
-                    // Create a hash table containing all the groups 
-                    // needed for a single column.
-                    groupTables [column] = CreateGroupsTable (column);
-                    lvLivestatusData.Columns [column].ImageKey = "FullGreen";
-                }
-
-                // Start with the groups created for the Title column.
-                SetGroups (0);
-            }
-
-            toolStripStatusLabel1.Text = string.Format("Es wurden {0} Verzeichnisse gefunden",  lvLivestatusData.Items.Count.ToString ());
-        }
+        #region Thread
 
         public static string [] GetDirGreaterThen24h (string sourceDir)
         {
@@ -682,30 +715,6 @@ namespace MK_Livestatus_GUI
             
             return result.ToArray ();
         }
-
-        /// <summary>
-        /// Diese Methode wird von einem Background Thread (nicht UI Thread) aufgerufen
-        /// </summary>
-        /// <param name="max">Maximale Anzahl der Durchläufe</param>
-        //private void BackgroundThreadAction (int max)
-        //{
-        //    //if (max < 0)
-        //    //{
-        //    //    InvokeIfRequired (this.textBoxStatus, (MethodInvoker) delegate ()
-        //    //    {
-        //    //        this.textBoxStatus.Text = "max value must be greater than zero";
-        //    //    });
-        //    //    return;
-        //    //}
-        //    for (int i = 0; i < max; i++)
-        //    {
-        //        InvokeIfRequired (this.textBoxStatus, (MethodInvoker) delegate ()
-        //        {
-        //            this.textBoxStatus.Text = String.Format ("Processing value {0}", i);
-        //        });
-        //        Thread.Sleep (10);
-        //    }
-        //}
 
         /// <summary>
         /// Methode die die UI Interaktionen durchführt.
@@ -871,102 +880,32 @@ namespace MK_Livestatus_GUI
                                 //lvLivestatusData.Columns.AddRange (new ColumnHeaderCollection [] { });
 
                             });
+                            result.RemoveAt (i);
                             Thread.Sleep (10);
                             continue;
                         }
-
-
-                        String [] temp = result [i].ToString ().Split (';');
-
-                        int iTmp;
-                        //int.TryParse (temp [2], out iTmp);
-                        //DateTimeOffset dto;
-                        //= UnixDateTime.FromUnixTimeSeconds (iTmp);
-                        //temp [2] = dto.DateTime.ToString ();
-
-                        if (temp.Length >= 4)
-                        {
-                            int.TryParse (temp [4], out iTmp);
-                            DateTimeOffset dto1 = UnixDateTime.FromUnixTimeSeconds (iTmp);
-                            temp [4] = dto1.LocalDateTime.ToString ();
-
-                            int.TryParse (temp [5], out iTmp);
-                            DateTimeOffset dto2 = UnixDateTime.FromUnixTimeSeconds (iTmp);
-                            temp [5] = dto2.DateTime.ToString ();
-
-                            result [i] = string.Join (";", temp);
-
-                        }
                         else
-                            result [i] = string.Join (";", temp);
-
-                    }
-
-                    //  Populate Data to ListView
-                    foreach (string item in result)
-                    {
-                        //Console.WriteLine ("Response received : {0}", item);
-                        InvokeIfRequired (lvLivestatusData, (MethodInvoker) delegate ()
                         {
-                            //lvLivestatusData.Items.Add (String.Format ("Processing value {0}", i));
-                            lvLivestatusData.Items.Add (new ListViewItem(ConvertMKLive2ListView(item.Split(';'), columns)));
-                        });
-                        Thread.Sleep (10);
-                    }
+                            //  Populate Data to ListView
+                            //foreach (string item in result)
+                            if(!string.IsNullOrWhiteSpace(result [i]))
+                            {
+                                //Console.WriteLine ("Response received : {0}", item);
+                                InvokeIfRequired (lvLivestatusData, (MethodInvoker) delegate ()
+                                {
+                                    //lvLivestatusData.Items.Add (String.Format ("Processing value {0}", i));
+                                    lvLivestatusData.Items.Add (new ListViewItem (ConvertMKLive2ListView (result [i].Split (';'), columns, ColumnData)));
+                                });
+                                Thread.Sleep (10);
+                            }
+                        }
 
+                    }
                 }
                 else
                     Console.WriteLine ("Response received : Empty Response");
 
-
-                //int max = 10;
-
-                //while (!_shouldStop)
-                //{
-                //    for (int i = 0; i < max; i++)
-                //    {
-                //    }
-                //}
                 #endregion
-
-                //TimeSpan ts = stopWatch.Elapsed;
-                //string elapsedTime = String.Format ("{0:00}:{1:00}:{2:00}.{3:00}",
-                //ts.Hours, ts.Minutes, ts.Seconds,
-                //ts.Milliseconds / 10);
-                //Console.WriteLine ("RunTime " + elapsedTime);
-                //Console.ReadKey ();
-
-
-
-
-                //Console.WriteLine ("Starte zweiten durchlauf: ");
-
-                //client.BeginConnect (remoteEP,
-                //    new AsyncCallback (ConnectCallback), client);
-                //connectDone.WaitOne ();
-
-                //GET =
-                //"GET comments\n" +
-                //"Columns: author comment host_alias\n" +
-                //"ColumnHeaders: on\n" +
-                //"ResponseHeader: fixed16\n"
-                //;
-                //bytesend = client.Send (ByteGet, ByteGet.Length, SocketFlags.None);
-                //client.Shutdown (SocketShutdown.Send);
-
-                //Receive (client);
-                //receiveDone.WaitOne ();
-
-                //Console.WriteLine ("Response received : {0}", response);
-
-
-                //// Release the socket.
-                //if (client != null)
-                //{
-                //    client.Shutdown (SocketShutdown.Both);
-                //    client.Close ();
-                //}
-
             }
             catch (Exception e)
             {
@@ -975,17 +914,18 @@ namespace MK_Livestatus_GUI
             }
         }
 
-        private SerializationInfo ConvertMKLive2ListView (string [] DataRow, string [] columns)
+        private string[] ConvertMKLive2ListView (string [] DataRow, string [] columns, List<MK_Livestatus> mkl)
         {
-            string [] lvData;
+            List<string> lvData = new List<string>();
 
             if (DataRow.Length == columns.Length)
             {
-                foreach (string str in DataRow)
+                for(int i=0;i<DataRow.Length;i++) //(string str in DataRow)
                 {
-
+                    lvData.Add(FormatMKLiveData (mkl.FirstOrDefault( C => C.LivefieldName == columns[i]), DataRow[i]));
                 }
             }
+            return lvData.ToArray ();
         }
 
         public string  FormatMKLiveData(MK_Livestatus mkl, string strData)
@@ -1009,7 +949,31 @@ namespace MK_Livestatus_GUI
                     strOut = dto1.LocalDateTime.ToString ();
                     break;
 
+                    // OK Warn Crit Unkn
                 case E_MK_LiveStatusObjectTypes.NagiosState:
+                    int.TryParse (strData, out iOut);
+
+                    if(mkl.LivefieldTable == E_MK_LivestatusTables.Hosts)
+                        strOut = Enum.GetName (typeof (E_MK_LiveStatusNagiosStateHost), iOut);
+
+                    if (mkl.LivefieldTable == E_MK_LivestatusTables.Services)
+                        strOut = Enum.GetName (typeof (E_MK_LiveStatusNagiosStateService), iOut);
+                    break;
+
+                    // Hard | Soft 
+                case E_MK_LiveStatusObjectTypes.NagiosStateType:
+                    int.TryParse (strData, out iOut);
+                    strOut = Enum.GetName (typeof (E_MK_LiveStatusNagiosStateType), iOut);
+                    break;
+
+                case E_MK_LiveStatusObjectTypes.CheckType:
+                    int.TryParse (strData, out iOut);
+                    strOut = Enum.GetName (typeof (E_MK_LiveStatusNagiosCheckType), iOut);
+                    break;
+
+                case E_MK_LiveStatusObjectTypes.CommentType:
+                    int.TryParse (strData, out iOut);
+                    strOut = Enum.GetName (typeof (E_MK_LivestatusCommentType), iOut);
                     break;
 
                 case E_MK_LiveStatusObjectTypes.None:
@@ -1031,12 +995,18 @@ namespace MK_Livestatus_GUI
         {
             List<MK_Livestatus> ColumnList = new List<MK_Livestatus> ();
 
+            List<MK_Livestatus> TableData = new List<MK_Livestatus> ();
+            TableData.AddRange (MKLivestatusList.Where (T => T.liveFieldTableAsString == v)); //.ToList ());
+
             foreach (string  str in columns)
             {
-                ColumnList.AddRange (MKLivestatusList.Where( T => T.liveFieldTableAsString == v).ToList().Where(w => w.LivefieldName == str));
+                ColumnList.AddRange (TableData.Where (w => w.LivefieldName == str).ToList ());
+                //.Where(w => w.LivefieldName == str));
             }
             return ColumnList.Count > 0 ? ColumnList : null;
         }
+
+        #endregion
 
         #region Socket
 
@@ -1234,7 +1204,7 @@ namespace MK_Livestatus_GUI
             }
         }
 
-        public string liveFieldTableAsString { get { return Enum.GetName (typeof (E_MK_LivestatusTables), LivefieldTable); } }
+        public string liveFieldTableAsString { get { return (Enum.GetName (typeof (E_MK_LivestatusTables), LivefieldTable).ToLower()); } }
 
         private string livefieldName;
         [JsonProperty ("livefieldName", Required = Required.Default)]
