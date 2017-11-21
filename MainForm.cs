@@ -44,6 +44,7 @@ namespace MK_Livestatus_GUI
         None = 0,
         Columns,
         Comments,
+        Commands,
         Contactgroups,
         Contacts,
         Downtimes,
@@ -107,7 +108,39 @@ namespace MK_Livestatus_GUI
             set { _activeConnectionSet = value; }
         }
 
+        public string StrKonfigFile
+        {
+            get
+            {
+                return strKonfigFile;
+            }
+
+            set
+            {
+                strKonfigFile = value;
+            }
+        }
+        
+        private List<MK_Livestatus> MKLivestatusList;
+
+        private MK_Livestatus mklivestatus;
+        public MK_Livestatus Mklivestatus
+        {
+            get
+            {
+                return mklivestatus;
+            }
+
+            set
+            {
+                mklivestatus = value;
+            }
+        }
+
+        private string strKonfigFile;
+
         ArrayList nagiosKonfigList;
+
 
         // ManualResetEvent instances signal completion.
         private static ManualResetEvent connectDone =
@@ -126,6 +159,10 @@ namespace MK_Livestatus_GUI
         public FormMainWindow ()
         {
             InitializeComponent ();
+
+            StrKonfigFile = Path.GetDirectoryName( Application.ExecutablePath) + "\\cfg.JSON";
+            mklivestatus = new MK_Livestatus ();
+            MKLivestatusList = new List<MK_Livestatus> ();
         }
 
 
@@ -189,6 +226,9 @@ namespace MK_Livestatus_GUI
                 SetGroups (0);
             }
 
+
+            //  JSON Load Test
+            loadFromCFGFile ();
 
         }
 
@@ -1004,6 +1044,56 @@ namespace MK_Livestatus_GUI
         }
 
         #endregion
+
+        #region JSON
+        public bool loadFromCFGFile ()
+        {
+            if (!string.IsNullOrWhiteSpace (StrKonfigFile) && File.Exists (StrKonfigFile))
+            {
+                readJSON ();
+                return true;
+            }
+            return false;
+        }
+
+        public bool readJSON ()
+        {
+            try
+            {
+                //JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+                //{
+                //    Formatting = Formatting.Indented
+                    
+                //};
+                JsonConvert.DefaultSettings = (() =>
+                {
+                    var settings = new JsonSerializerSettings ();
+                    settings.Converters.Add (new StringEnumConverter ());
+                    settings.Formatting = Formatting.Indented;
+                    return settings;
+                });
+
+                using (StreamReader file = File.OpenText (StrKonfigFile))
+                {
+                    //JsonSerializer serializer = new JsonSerializer ();
+                    //Mklivestatus = 
+                    MKLivestatusList = JsonConvert.DeserializeObject<List<MK_Livestatus>>(File.ReadAllText(StrKonfigFile));
+
+                    List<MK_Livestatus> tableLIst = MKLivestatusList.Where (s => s.LivefieldTable == E_MK_LivestatusTables.Commands).ToList();
+                   
+                    //			    Settings = (appSettings)JsonConvert.DeserializeObject(GetJSON());
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine (e.Message, "Error: readJSON()");
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion
     }
 
     [JsonObject(MemberSerialization.OptIn)]
@@ -1026,7 +1116,7 @@ namespace MK_Livestatus_GUI
 
         private E_MK_LivestatusTables livefieldTable;
         [JsonProperty ("livefieldTable", Required = Required.Default)]
-        [JsonConverter (typeof (EnumConverter))]
+        [JsonConverter (typeof (StringEnumConverter))]
         public E_MK_LivestatusTables LivefieldTable
         {
             get
@@ -1057,7 +1147,7 @@ namespace MK_Livestatus_GUI
 
         private E_MK_LiveStatusObjectTypes livefieldTypeID;
         [JsonProperty ("livefieldTypeID", Required = Required.Default)]
-        [JsonConverter (typeof (EnumConverter))]
+        [JsonConverter (typeof (StringEnumConverter))]
         public E_MK_LiveStatusObjectTypes LivefieldTypeID
         {
             get
