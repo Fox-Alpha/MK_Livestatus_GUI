@@ -7514,10 +7514,10 @@
   {
      "livefieldID":940
     ,"livefieldTable":"log"
-    ,"livefieldName":"4"
-    ,"livefieldTypeID":time
+    ,"livefieldName":"time"
+    ,"livefieldTypeID":4
     ,"livefieldDescription":"Time of the log event (UNIX timestamp)"
-    ,"liveFieldTypeName":"#NV"
+    ,"liveFieldTypeName":"time"
   },
   {
      "livefieldID":941
@@ -14410,10 +14410,10 @@
   {
      "livefieldID":1802
     ,"livefieldTable":"statehist"
-    ,"livefieldName":"4"
-    ,"livefieldTypeID":time
+    ,"livefieldName":"time"
+    ,"livefieldTypeID":4
     ,"livefieldDescription":"Time of the log event (seconds since 1/1/1970)"
-    ,"liveFieldTypeName":"#NV"
+    ,"liveFieldTypeName":"time"
   },
   {
      "livefieldID":1803
