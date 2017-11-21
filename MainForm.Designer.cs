@@ -36,12 +36,12 @@
             this.buttStartQuery = new System.Windows.Forms.Button();
             this.tbLivestatusQuery = new System.Windows.Forms.TextBox();
             this.lvLivestatusData = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.splitter = new System.Windows.Forms.Splitter();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsddButtConnections = new System.Windows.Forms.ToolStripDropDownButton();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -126,6 +126,14 @@
             this.lvLivestatusData.View = System.Windows.Forms.View.Details;
             this.lvLivestatusData.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.lvLivestatusData_ColumnClick);
             // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Pfad";
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "TimeStamp";
+            // 
             // splitter
             // 
             this.splitter.Dock = System.Windows.Forms.DockStyle.Top;
@@ -160,14 +168,6 @@
             this.tsddButtConnections.Name = "tsddButtConnections";
             this.tsddButtConnections.Size = new System.Drawing.Size(29, 20);
             this.tsddButtConnections.Text = "toolStripDropDownButton1";
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Pfad";
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "TimeStamp";
             // 
             // FormMainWindow
             // 

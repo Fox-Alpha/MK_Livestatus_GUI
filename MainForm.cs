@@ -24,6 +24,36 @@ using Newtonsoft.Json.Converters;
 
 namespace MK_Livestatus_GUI
 {
+    public enum E_MK_LiveStatusNagiosStateHost : int
+    {
+        Up = 0,
+        Down = 1,
+        Unreachable = 2,
+        Unknown = 3,
+        Pending,
+    }
+    public enum E_MK_LiveStatusNagiosStateService : int
+    {
+        OK = 0,
+        Warning = 1,
+        Critical = 2,
+        Unknown = 3,
+        // Pending, Wenn Check noch nicht ausgeführt wurde
+    }
+    public enum E_MK_LiveStatusNagiosStateType : int
+    {
+        Hard = 0,
+        Soft = 1,
+    }
+
+    //  The type of the comment: 1 is user, 2 is downtime, 3 is flap and 4 is acknowledgement
+    public enum E_MK_LivestatusCommentType : int
+    {
+        User = 1,
+        Downtime,
+        Flap,
+        Acknowledge
+    }
 
     public enum E_MK_LiveStatusObjectTypes : int
     {
@@ -36,7 +66,10 @@ namespace MK_Livestatus_GUI
         List,
         Float2Vector,
         Float3Vector,
-        Dict
+        Dict,
+        NagiosState,
+        NagiosStateType,
+        CommentType
     }
 
     public enum E_MK_LivestatusTables : int
@@ -698,8 +731,9 @@ namespace MK_Livestatus_GUI
             }
         }
 
-        private bool _shouldStop = false;
-
+        /// <summary>
+        /// Background Thread Funktion zum abfragen der MK_Livestatus Daten
+        /// </summary>
         public void DoWork ()
         {
 
@@ -756,6 +790,9 @@ namespace MK_Livestatus_GUI
                 //"OutputFormat: json\n"
                 ;
 
+                string fromTable = "services";
+                string [] columns = { "host_name", "description", "last_state", "state", "state_type", "last_state_change", "next_check", "plugin_output" };
+                List<MK_Livestatus> ColumnData = GetTableTypeData (fromTable, columns);
 
                 // Syncron Receive
                 Encoding ASCII = Encoding.ASCII;
@@ -806,6 +843,12 @@ namespace MK_Livestatus_GUI
                 {
                     List<String> result = new List<String> ();
                     result.AddRange (response.Split ('\n'));
+
+                    if (ColumnData.Count > 0)
+                    {
+
+                    }
+
 
                     for (int i = 0; i < result.Count; i++)
                     {
@@ -859,14 +902,14 @@ namespace MK_Livestatus_GUI
 
                     }
 
-                    //// Write the response to the console.
+                    //  Populate Data to ListView
                     foreach (string item in result)
                     {
                         //Console.WriteLine ("Response received : {0}", item);
                         InvokeIfRequired (lvLivestatusData, (MethodInvoker) delegate ()
                         {
                             //lvLivestatusData.Items.Add (String.Format ("Processing value {0}", i));
-                            lvLivestatusData.Items.Add (new ListViewItem(item.Split(';')));
+                            lvLivestatusData.Items.Add (new ListViewItem(ConvertMKLive2ListView(item.Split(';'), columns)));
                         });
                         Thread.Sleep (10);
                     }
@@ -927,9 +970,72 @@ namespace MK_Livestatus_GUI
             }
             catch (Exception e)
             {
-                Console.WriteLine (e.ToString ());
-                Console.ReadKey ();
+                Debug.WriteLine (e.ToString ());
+                //Debug.ReadKey ();
             }
+        }
+
+        private SerializationInfo ConvertMKLive2ListView (string [] DataRow, string [] columns)
+        {
+            string [] lvData;
+
+            if (DataRow.Length == columns.Length)
+            {
+                foreach (string str in DataRow)
+                {
+
+                }
+            }
+        }
+
+        public string  FormatMKLiveData(MK_Livestatus mkl, string strData)
+        {
+            int iOut;
+            string strOut = "";
+
+            switch (mkl.LivefieldTypeID)
+            {
+                case E_MK_LiveStatusObjectTypes.Boolean:
+
+                    if(int.TryParse (strData, out iOut))
+                    {
+                        strOut = iOut != 0 ? "JA" : "NEIN";
+                    }
+                    break;
+
+                case E_MK_LiveStatusObjectTypes.Time:
+                    int.TryParse (strData, out iOut);
+                    DateTimeOffset dto1 = UnixDateTime.FromUnixTimeSeconds (iOut);
+                    strOut = dto1.LocalDateTime.ToString ();
+                    break;
+
+                case E_MK_LiveStatusObjectTypes.NagiosState:
+                    break;
+
+                case E_MK_LiveStatusObjectTypes.None:
+                case E_MK_LiveStatusObjectTypes.Dict:
+                case E_MK_LiveStatusObjectTypes.Float:
+                case E_MK_LiveStatusObjectTypes.Float2Vector:
+                case E_MK_LiveStatusObjectTypes.Float3Vector:
+                case E_MK_LiveStatusObjectTypes.Integer:
+                case E_MK_LiveStatusObjectTypes.List:
+                case E_MK_LiveStatusObjectTypes.String:
+                default:
+                    return strData;
+            }
+
+            return strOut;
+        }
+
+        private List<MK_Livestatus> GetTableTypeData (string v, string[] columns)
+        {
+            List<MK_Livestatus> ColumnList = new List<MK_Livestatus> ();
+
+            foreach (string  str in columns)
+            {
+                ColumnList.AddRange (MKLivestatusList.Where( T => T.liveFieldTableAsString == v).ToList().Where(w => w.LivefieldName == str));
+            }
+            return ColumnList.Count > 0 ? ColumnList : null;
         }
 
         #region Socket
@@ -1046,6 +1152,11 @@ namespace MK_Livestatus_GUI
         #endregion
 
         #region JSON
+
+        /// <summary>
+        /// Vor dem Serialisieren der Daten, prüfen ob die Datei existiert
+        /// </summary>
+        /// <returns></returns>
         public bool loadFromCFGFile ()
         {
             if (!string.IsNullOrWhiteSpace (StrKonfigFile) && File.Exists (StrKonfigFile))
@@ -1056,15 +1167,14 @@ namespace MK_Livestatus_GUI
             return false;
         }
 
+        /// <summary>
+        /// Deserialisieren der MKLivestatus Tabellen Daten aus einer JSON Datei
+        /// </summary>
+        /// <returns></returns>
         public bool readJSON ()
         {
             try
             {
-                //JsonConvert.DefaultSettings = () => new JsonSerializerSettings
-                //{
-                //    Formatting = Formatting.Indented
-                    
-                //};
                 JsonConvert.DefaultSettings = (() =>
                 {
                     var settings = new JsonSerializerSettings ();
@@ -1075,13 +1185,7 @@ namespace MK_Livestatus_GUI
 
                 using (StreamReader file = File.OpenText (StrKonfigFile))
                 {
-                    //JsonSerializer serializer = new JsonSerializer ();
-                    //Mklivestatus = 
                     MKLivestatusList = JsonConvert.DeserializeObject<List<MK_Livestatus>>(File.ReadAllText(StrKonfigFile));
-
-                    List<MK_Livestatus> tableLIst = MKLivestatusList.Where (s => s.LivefieldTable == E_MK_LivestatusTables.Commands).ToList();
-                   
-                    //			    Settings = (appSettings)JsonConvert.DeserializeObject(GetJSON());
                 }
             }
             catch (Exception e)
@@ -1129,6 +1233,8 @@ namespace MK_Livestatus_GUI
                 livefieldTable = value;
             }
         }
+
+        public string liveFieldTableAsString { get { return Enum.GetName (typeof (E_MK_LivestatusTables), LivefieldTable); } }
 
         private string livefieldName;
         [JsonProperty ("livefieldName", Required = Required.Default)]
