@@ -769,23 +769,7 @@ namespace MK_Livestatus_GUI
                     new AsyncCallback (ConnectCallback), client);
                 connectDone.WaitOne ();
 
-                // Send test data to the remote device.
-                //Send (client, "This is a test<EOF>");
-                //Send (client, "GET status\nResponseHeader: fixed16\nColumnHeaders: on\n");
                 GET =
-
-                //"GET columns\nFilter: table = comments\nColumns: name\nResponseHeader: fixed16\n");
-                //"GET status\n" +
-                //"Columns: livecheck_overflows livecheck_overflows_rate livechecks livechecks_rate livestatus_active_connections " +
-                //"livestatus_queued_connections livestatus_threads livestatus_version num_hosts num_services program_start program_version\n" +
-                //"ColumnHeaders: on\n" +
-                //"ResponseHeader: fixed16\n"
-
-                //"GET comments\n" +
-                //"Columns: author comment host_alias\n" +
-                //"ColumnHeaders: on\n" +
-                //"ResponseHeader: fixed16\n";
-
                 "GET services\n" +
                 "Columns:  host_name description last_state state state_type last_state_change next_check plugin_output\n" +
                 //"Filter: description = TEST Port Check mit Antwort Pruefung\n" +
@@ -795,7 +779,6 @@ namespace MK_Livestatus_GUI
                 "WaitTimeout: 3000\n" +
                 //"ResponseHeader: fixed16"
                 "ColumnHeaders: on\n"
-
                 //"OutputFormat: json\n"
                 ;
 
@@ -815,22 +798,8 @@ namespace MK_Livestatus_GUI
 
                 if (client.Connected)
                 {
-                    //Send (client, GET);
-                    //sendDone.WaitOne ();
-
-                    //stopWatch.Start ();
-
                     bytesend = client.Send (ByteGet, ByteGet.Length, SocketFlags.None);
                     client.Shutdown (SocketShutdown.Send);
-                    // Receive the host home page content and loop until all the data is received.
-                    //Int32 bytes = client.Receive (RecvBytes, RecvBytes.Length, 0);
-
-                    //while (bytes > 0)
-                    //{
-                    //    response = response + ASCII.GetString (RecvBytes, 0, bytes);
-                    //    bytes = client.Receive (RecvBytes, RecvBytes.Length, 0);
-                    //}
-                    //Receive the response from the remote device.
                     Receive (client);
                     receiveDone.WaitOne ();
 
@@ -839,11 +808,8 @@ namespace MK_Livestatus_GUI
                         client.Shutdown (SocketShutdown.Both);
                         client.Close ();
                     }
-
-                    //stopWatch.Stop ();
                 }
 
-                //  convert Unix Timestams to DateTimes
                 Debug.WriteLine (response, "DEBUG");
 
                 #region DataAusgabe
@@ -852,12 +818,6 @@ namespace MK_Livestatus_GUI
                 {
                     List<String> result = new List<String> ();
                     result.AddRange (response.Split ('\n'));
-
-                    if (ColumnData.Count > 0)
-                    {
-
-                    }
-
 
                     for (int i = 0; i < result.Count; i++)
                     {
@@ -887,13 +847,10 @@ namespace MK_Livestatus_GUI
                         else
                         {
                             //  Populate Data to ListView
-                            //foreach (string item in result)
                             if(!string.IsNullOrWhiteSpace(result [i]))
                             {
-                                //Console.WriteLine ("Response received : {0}", item);
                                 InvokeIfRequired (lvLivestatusData, (MethodInvoker) delegate ()
                                 {
-                                    //lvLivestatusData.Items.Add (String.Format ("Processing value {0}", i));
                                     lvLivestatusData.Items.Add (new ListViewItem (ConvertMKLive2ListView (result [i].Split (';'), columns, ColumnData)));
                                 });
                                 Thread.Sleep (10);
@@ -910,7 +867,6 @@ namespace MK_Livestatus_GUI
             catch (Exception e)
             {
                 Debug.WriteLine (e.ToString ());
-                //Debug.ReadKey ();
             }
         }
 
@@ -920,7 +876,7 @@ namespace MK_Livestatus_GUI
 
             if (DataRow.Length == columns.Length)
             {
-                for(int i=0;i<DataRow.Length;i++) //(string str in DataRow)
+                for(int i=0;i<DataRow.Length;i++)
                 {
                     lvData.Add(FormatMKLiveData (mkl.FirstOrDefault( C => C.LivefieldName == columns[i]), DataRow[i]));
                 }
@@ -1281,35 +1237,6 @@ namespace MK_Livestatus_GUI
         // Received data string.
         public StringBuilder sb = new StringBuilder ();
     }
-
-    //class Worker
-    //{
-    //    private volatile bool _shouldStop = false;
-
-    //    public Worker() { }
-
-    //    public void DoWork()
-    //    {
-    //        while(!_shouldStop)
-    //        {
-    //            for (int i = 0; i < max; i++)
-    //            {
-    //                InvokeIfRequired (this.textBoxStatus, (MethodInvoker) delegate ()
-    //                {
-    //                    this.textBoxStatus.Text = String.Format ("Processing value {0}", i);
-    //                });
-    //                Thread.Sleep (10);
-    //            }
-    //        }
-
-    //    }
-
-    //    public void StopWork()
-    //    {
-    //        _shouldStop = true;
-    //    }
-    //}
-
 
     // Sorts ListViewGroup objects by header value.
     /// <summary>
