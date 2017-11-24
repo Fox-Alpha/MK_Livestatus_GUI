@@ -478,23 +478,9 @@ namespace MK_Livestatus_GUI
         {
 
             Thread thread = new Thread (DoWork);
-            //	Gruppen können nur ab Windows XP und aufwärts erstellt werden
-            if (isRunningXPOrLater)
-            {
-                // Create the groupsTable array and populate it with one 
-                // hash table for each column.
-                groupTables = new Hashtable [lvLivestatusData.Columns.Count];
-                for (int column = 0; column < lvLivestatusData.Columns.Count; column++)
-                {
-                    // Create a hash table containing all the groups 
-                    // needed for a single column.
-                    groupTables [column] = CreateGroupsTable (column);
-                    lvLivestatusData.Columns [column].ImageKey = "FullGreen";
-                }
 
-                // Start with the groups created for the Title column.
-                SetGroups (0);
-            }
+            groupTables = new Hashtable [lvLivestatusData.Columns.Count];
+            lvLivestatusData.Items.Clear ();
 
             thread.Start ();
 
@@ -856,8 +842,22 @@ namespace MK_Livestatus_GUI
                                 Thread.Sleep (10);
                             }
                         }
-
                     }
+
+                    InvokeIfRequired (lvLivestatusData, (MethodInvoker) delegate ()
+                    {
+                        groupTables = new Hashtable [lvLivestatusData.Columns.Count];
+                        for (int column = 0; column < lvLivestatusData.Columns.Count; column++)
+                        {
+                            // Create a hash table containing all the groups 
+                            // needed for a single column.
+                            groupTables [column] = CreateGroupsTable (column);
+                            lvLivestatusData.Columns[column].AutoResize (ColumnHeaderAutoResizeStyle.ColumnContent);
+                            //lvLivestatusData.Columns [column].ImageKey = "FullGreen";
+                        }
+                    });
+                    // Start with the groups created for the Title column.
+                    SetGroups (0);
                 }
                 else
                     Console.WriteLine ("Response received : Empty Response");
