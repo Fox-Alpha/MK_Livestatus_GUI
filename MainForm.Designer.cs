@@ -110,17 +110,19 @@
             // 
             // lvLivestatusData
             // 
+            this.lvLivestatusData.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lvLivestatusData.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.lvLivestatusData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvLivestatusData.FullRowSelect = true;
             this.lvLivestatusData.GridLines = true;
             this.lvLivestatusData.Location = new System.Drawing.Point(0, 125);
             this.lvLivestatusData.MultiSelect = false;
             this.lvLivestatusData.Name = "lvLivestatusData";
             this.lvLivestatusData.ShowItemToolTips = true;
-            this.lvLivestatusData.Size = new System.Drawing.Size(765, 365);
+            this.lvLivestatusData.Size = new System.Drawing.Size(765, 340);
             this.lvLivestatusData.TabIndex = 1;
             this.lvLivestatusData.UseCompatibleStateImageBehavior = false;
             this.lvLivestatusData.View = System.Windows.Forms.View.Details;
