@@ -799,9 +799,6 @@ namespace MK_Livestatus_GUI
                 Byte [] RecvBytes = new Byte [256];
 
                 Int32 bytesend = 0;
-                //String strRetPage = null;
-
-                //bool b = client.Poll (100, SelectMode.SelectRead);
 
                 if (client.Connected)
                 {
@@ -836,16 +833,12 @@ namespace MK_Livestatus_GUI
 
                             InvokeIfRequired (lvLivestatusData, (MethodInvoker) delegate ()
                             {
-                                //lvLivestatusData.Items.Add (String.Format ("Processing value {0}", i));
                                 lvLivestatusData.Columns.Clear ();
 
                                 foreach (string item in header)
                                 {
                                     lvLivestatusData.Columns.Add (new ColumnHeader ().Text = item);
                                 }
-
-                                //lvLivestatusData.Columns.AddRange (new ColumnHeaderCollection [] { });
-
                             });
                             result.RemoveAt (i);
                             Thread.Sleep (10);
@@ -858,9 +851,7 @@ namespace MK_Livestatus_GUI
                             {
                                 InvokeIfRequired (lvLivestatusData, (MethodInvoker) delegate ()
                                 {
-                                    Color ItemColor;
-                                    ListViewItem lvi = lvLivestatusData.Items.Add (new ListViewItem (ConvertMKLive2ListView (result [i].Split (';'), columns, ColumnData))); //.BackColor = GetColorCode(Color.Window);
-                                    ItemColor = GetColorCode (lvi.BackColor);
+                                    ListViewItem lvi = lvLivestatusData.Items.Add (ConvertMKLive2ListView (result [i].Split (';'), columns, ColumnData)); //.BackColor = GetColorCode(Color.Window);
                                 });
                                 Thread.Sleep (10);
                             }
@@ -893,29 +884,64 @@ namespace MK_Livestatus_GUI
             }
         }
 
-        private Color GetColorCode (Color c)
+        private Color GetColorCode (Color c, int state, bool isHost = true)
         {
+
+            switch (state)
+            {
+                case 0:
+                    dictNagiosStateColors.TryGetValue (E_MK_LiveStatusNagiosStateColors.StateOK, out c);
+                    break;
+                case 1:
+                    dictNagiosStateColors.TryGetValue(isHost ? E_MK_LiveStatusNagiosStateColors.StateCritical : E_MK_LiveStatusNagiosStateColors.StateWarning, out c);
+                    break;
+                case 2:
+                    dictNagiosStateColors.TryGetValue (isHost ? E_MK_LiveStatusNagiosStateColors.StateWarning : E_MK_LiveStatusNagiosStateColors.StateCritical, out c);
+                    break;
+                case 3:
+                    dictNagiosStateColors.TryGetValue (E_MK_LiveStatusNagiosStateColors.StateUnknown, out c);
+                    break;
+                case 4:
+                    dictNagiosStateColors.TryGetValue (E_MK_LiveStatusNagiosStateColors.StatePending, out c);
+                    break;
+                default:
+                    break;
+            }
             return c;
         }
 
-        private string[] ConvertMKLive2ListView (string [] DataRow, string [] columns, List<MK_Livestatus> mkl)
+        private ListViewItem ConvertMKLive2ListView (string [] DataRow, string [] columns, List<MK_Livestatus> mkl)
         {
             List<string> lvData = new List<string>();
+            ListViewItem lvi = new ListViewItem();
+            Color ItemColor = SystemColors.Window;
 
             if (DataRow.Length == columns.Length)
             {
                 for(int i=0;i<DataRow.Length;i++)
                 {
-                    lvData.Add(FormatMKLiveData (mkl.FirstOrDefault( C => C.LivefieldName == columns[i]), DataRow[i]));
+                    if (i == 0)
+                    {
+                        lvi.Text = FormatMKLiveData (mkl.FirstOrDefault (C => C.LivefieldName == columns [i]), DataRow [i], out ItemColor);
+                    }
+                    else
+                        lvi.SubItems.Add (FormatMKLiveData (mkl.FirstOrDefault (C => C.LivefieldName == columns [i]), DataRow [i], out ItemColor));
+
+                    if (ItemColor != SystemColors.Window)
+                    {
+                        lvi.BackColor = ItemColor;
+                    }
                 }
             }
-            return lvData.ToArray ();
+
+            return lvi;
         }
 
-        public string  FormatMKLiveData(MK_Livestatus mkl, string strData)
+        public string  FormatMKLiveData(MK_Livestatus mkl, string strData, out Color itemColor)
         {
             int iOut;
             string strOut = "";
+            itemColor = SystemColors.Window;
 
             switch (mkl.LivefieldTypeID)
             {
@@ -937,11 +963,17 @@ namespace MK_Livestatus_GUI
                 case E_MK_LiveStatusObjectTypes.NagiosState:
                     int.TryParse (strData, out iOut);
 
-                    if(mkl.LivefieldTable == E_MK_LivestatusTables.Hosts)
+                    if (mkl.LivefieldTable == E_MK_LivestatusTables.Hosts)
+                    {
                         strOut = Enum.GetName (typeof (E_MK_LiveStatusNagiosStateHost), iOut);
+                        itemColor = GetColorCode (itemColor, iOut);
+                    }
 
                     if (mkl.LivefieldTable == E_MK_LivestatusTables.Services)
+                    {
                         strOut = Enum.GetName (typeof (E_MK_LiveStatusNagiosStateService), iOut);
+                        itemColor = GetColorCode (itemColor, iOut, false);
+                    }
                     break;
 
                     // Hard | Soft 
