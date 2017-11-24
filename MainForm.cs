@@ -45,7 +45,16 @@ namespace MK_Livestatus_GUI
         Warning = 1,
         Critical = 2,
         Unknown = 3,
-        // Pending, Wenn Check noch nicht ausgeführt wurde
+        Pending, //Wenn Check noch nicht ausgeführt wurde
+    }
+
+    public enum E_MK_LiveStatusNagiosStateColors : int
+    {
+        StateOK = 0,
+        StateWarning = 1,
+        StateCritical = 2,     
+        StateUnknown = 3,
+        StatePending = 4
     }
 
     /// <summary>
@@ -128,6 +137,18 @@ namespace MK_Livestatus_GUI
     public partial class FormMainWindow : Form
     {
         #region Properties
+
+        static Dictionary<E_MK_LiveStatusNagiosStateColors, System.Drawing.Color> dictNagiosStateColors = new Dictionary<E_MK_LiveStatusNagiosStateColors, Color> ()
+        {
+            {E_MK_LiveStatusNagiosStateColors.StateOK, Color.LimeGreen },
+            //{E_MK_LiveStatusNagiosStateColors.StateUp, Color.ForestGreen },
+            //{E_MK_LiveStatusNagiosStateColors.StateDown, Color.LightGoldenrodYellow },
+            {E_MK_LiveStatusNagiosStateColors.StateWarning, Color.LightYellow},
+            //{E_MK_LiveStatusNagiosStateColors.StateUnreachable, Color.Red },
+            {E_MK_LiveStatusNagiosStateColors.StateCritical, Color.IndianRed },
+            {E_MK_LiveStatusNagiosStateColors.StateUnknown, Color.MediumPurple },
+            {E_MK_LiveStatusNagiosStateColors.StatePending, Color.LightSlateGray }
+        };
         // Determine whether Windows XP or a later
         // operating system is present.
         private bool isRunningXPOrLater =
@@ -837,7 +858,9 @@ namespace MK_Livestatus_GUI
                             {
                                 InvokeIfRequired (lvLivestatusData, (MethodInvoker) delegate ()
                                 {
-                                    lvLivestatusData.Items.Add (new ListViewItem (ConvertMKLive2ListView (result [i].Split (';'), columns, ColumnData)));
+                                    Color ItemColor;
+                                    ListViewItem lvi = lvLivestatusData.Items.Add (new ListViewItem (ConvertMKLive2ListView (result [i].Split (';'), columns, ColumnData))); //.BackColor = GetColorCode(Color.Window);
+                                    ItemColor = GetColorCode (lvi.BackColor);
                                 });
                                 Thread.Sleep (10);
                             }
@@ -868,6 +891,11 @@ namespace MK_Livestatus_GUI
             {
                 Debug.WriteLine (e.ToString ());
             }
+        }
+
+        private Color GetColorCode (Color c)
+        {
+            return c;
         }
 
         private string[] ConvertMKLive2ListView (string [] DataRow, string [] columns, List<MK_Livestatus> mkl)
