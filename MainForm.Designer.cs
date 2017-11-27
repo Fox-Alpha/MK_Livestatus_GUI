@@ -123,6 +123,7 @@
             this.lvLivestatusData.Name = "lvLivestatusData";
             this.lvLivestatusData.ShowItemToolTips = true;
             this.lvLivestatusData.Size = new System.Drawing.Size(765, 340);
+            this.lvLivestatusData.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.lvLivestatusData.TabIndex = 1;
             this.lvLivestatusData.UseCompatibleStateImageBehavior = false;
             this.lvLivestatusData.View = System.Windows.Forms.View.Details;
