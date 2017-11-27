@@ -10,9 +10,13 @@ using System.Xml;
 using System.Security;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace ClassHelperUtils
-{                           
+{                 
+    /// <summary>
+    /// Funktionen um einen Unixtimestamp in einen DateTime und umgekehrt zu konvertieren
+    /// </summary>          
     public static class UnixDateTime
     {
         public static DateTimeOffset FromUnixTimeSeconds (long seconds)
@@ -39,27 +43,6 @@ namespace ClassHelperUtils
         public static long ToUnixTimeMilliseconds (this DateTimeOffset utcDateTime)
         {
             return utcDateTime.Ticks / 10000L - 62135596800000L;
-        }
-
-        public static string[] GetDirGreaterThen24h(string sourceDir)
-        {
-            string [] Jobs = System.IO.Directory.GetDirectories (sourceDir, "", System.IO.SearchOption.TopDirectoryOnly);
-            List<string> result = new List<string>();
-
-            foreach (string JobPath in Jobs)
-            {
-                string [] Jobbuf = System.IO.Directory.GetDirectories (JobPath + @"\buf\", "", System.IO.SearchOption.TopDirectoryOnly);
-                foreach (string buf in Jobbuf)
-                {
-                    System.IO.DirectoryInfo diJob = new System.IO.DirectoryInfo (buf);
-                    if (diJob.CreationTime < DateTime.Now.AddHours (-24))
-                    {
-                        Debug.WriteLine (@"Der Batch: " + buf + "ist älter wie 24h: " + diJob.CreationTime.ToString ());
-                        result.Add (buf);
-                    }
-                }
-            }
-            return result.ToArray ();
         }
 
         //[Test]
@@ -100,6 +83,9 @@ namespace ClassHelperUtils
         //}
     }
 
+    /// <summary>
+    /// Weitere hilfreiche Funktionen für Datei und Verzeichnisoperationen
+    /// </summary>
     public static class PathUtil
     {
         /// <summary>
@@ -167,6 +153,33 @@ namespace ClassHelperUtils
             }
 
             return newPath;
+        }
+
+        /// <summary>
+        /// Ermittelt alle Verzeichnisse deren Alter mehr wie 24h beträgt
+        /// Es werden nur die Unterverzeichnisse aus dem angegebenen Verzeichnis untersucht
+        /// </summary>
+        /// <param name="sourceDir">Verzeichnis das untersucht werden soll</param>
+        /// <returns></returns>
+        public static string [] GetDirGreaterThen24h (string sourceDir)
+        {
+            string [] Jobs = System.IO.Directory.GetDirectories (sourceDir, "", System.IO.SearchOption.TopDirectoryOnly);
+            List<string> result = new List<string> ();
+
+            foreach (string JobPath in Jobs)
+            {
+                string [] Jobbuf = System.IO.Directory.GetDirectories (JobPath + @"\buf\", "", System.IO.SearchOption.TopDirectoryOnly);
+                foreach (string buf in Jobbuf)
+                {
+                    System.IO.DirectoryInfo diJob = new System.IO.DirectoryInfo (buf);
+                    if (diJob.CreationTime < DateTime.Now.AddHours (-24))
+                    {
+                        Debug.WriteLine (@"Der Batch: " + buf + "ist älter wie 24h: " + diJob.CreationTime.ToString ());
+                        result.Add (buf);
+                    }
+                }
+            }
+            return result.ToArray ();
         }
     }
 
@@ -668,4 +681,64 @@ namespace ClassHelperUtils
         #endregion
     }
 
+    /// <summary>
+    /// Klasse zum schreiben einer Logdatei
+    /// </summary>
+    public static class Logger
+    {
+        static private object _objOutput;
+
+        static public object objOutput
+        {
+            get { return _objOutput; }
+            set { _objOutput = value; }
+        }
+
+        public static void Error (string message, string module)
+        {
+            WriteEntry (message, "error", module);
+        }
+
+        public static void Error (Exception ex, string module)
+        {
+            WriteEntry (ex.Message, "error", module);
+        }
+
+        public static void Warning (string message, string module)
+        {
+            WriteEntry (message, "warning", module);
+        }
+
+        public static void Info (string message, string module)
+        {
+            WriteEntry (message, "info", module);
+        }
+
+        private static void WriteEntry (string message, string type, string module)
+        {
+            string text2output = string.Format ("{0} | {1} | {2} | {3}",
+                                  DateTime.Now.ToString ("dd-MM-yyyy HH:mm:ss"),
+                                  type,
+                                  module,
+                                  message);
+            //	    	if (objOutput != null)
+            //	    		writeToAppLog(text2output);
+
+            Trace.WriteLine (text2output);
+        }
+
+        private static void writeToAppLog (string text)
+        {
+            if (!string.IsNullOrWhiteSpace (text))
+            {
+                if (objOutput != null)
+                {
+                    if (objOutput.GetType () == typeof (RichTextBox))
+                    {
+                        (objOutput as RichTextBox).AppendText (text);
+                    }
+                }
+            }
+        }
+    }
 }
