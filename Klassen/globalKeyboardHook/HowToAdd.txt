@@ -1,0 +1,33 @@
+using Utilities;
+
+globalKeyboardHook gkh = new globalKeyboardHook() ;
+
+private void Form1_Load(object sender, EventArgs e) {
+    gkh.HookedKeys.Add(Keys.A);
+    gkh.HookedKeys.Add(Keys.B);
+    gkh.KeyDown += new KeyEventHandler(gkh_KeyDown);
+    gkh.KeyUp += new KeyEventHandler(gkh_KeyUp);
+} 
+
+void gkh_KeyUp(object sender, KeyEventArgs e) {
+    lstLog.Items.Add("Up\t" + e.KeyCode.ToString());
+    e.Handled = true ;
+}
+
+void gkh_KeyDown(object sender, KeyEventArgs e) {
+    lstLog.Items.Add("Down\t" + e.KeyCode.ToString());
+    e.Handled = true ;
+} 
+
+
+
+//unhook
+gkh.unhook() 
+//set the hook again
+gkh.hook() 
+
+
+
+You can add hooks for as many keys as you would like, just add them like above. Don't get frustrated if you add a hook for a key and it doesn't work, 
+many of them, like Keys.Shift show up as other more specific keys, like Keys.LShiftKey or Keys.RShiftKey. Keys.Alt shows up as Keys.LMenu or Keys.RMenu, 
+Keys.Control shows up as Keys.LControl or Keys.RControl, just to name a few.
