@@ -872,9 +872,11 @@ namespace MK_Livestatus_GUI
                             lvLivestatusData.Columns[column].AutoResize (ColumnHeaderAutoResizeStyle.ColumnContent);
                             //lvLivestatusData.Columns [column].ImageKey = "FullGreen";
                         }
+
+                        SetGroups (0);
                     });
                     // Start with the groups created for the Title column.
-                    SetGroups (0);
+                    
                 }
                 else
                     Console.WriteLine ("Response received : Empty Response");
