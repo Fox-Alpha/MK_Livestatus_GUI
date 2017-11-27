@@ -24,6 +24,8 @@ using Newtonsoft.Json.Converters;
 
 namespace MK_Livestatus_GUI
 {
+    #region ENUMS
+
     /// <summary>
     /// Unterscheidung des Status von Hostst
     /// </summary>
@@ -133,6 +135,7 @@ namespace MK_Livestatus_GUI
         Status,
         Timeperiods
     }
+    #endregion
 
     public partial class FormMainWindow : Form
     {
@@ -160,7 +163,7 @@ namespace MK_Livestatus_GUI
         // Declare a variable to store the current grouping column.
         int groupColumn = 0;
 
-        public string strNagiosKonfigFile { get; private set; } = "ServerKonfiguration.bin";
+        public string strNagiosKonfigFile { get; private set; } = "Data\\ServerKonfiguration.bin";
 
         //	Menüeintrag für ConnectionManager Formaufruf
         ToolStripMenuItem tsiNagiosConnectionManager;
@@ -245,7 +248,7 @@ namespace MK_Livestatus_GUI
         {
             InitializeComponent ();
 
-            StrKonfigFile = Path.GetDirectoryName( Application.ExecutablePath) + "\\cfg.JSON";
+            StrKonfigFile = Path.GetDirectoryName( Application.ExecutablePath) + "\\data\\cfg.JSON";
             mklivestatus = new MK_Livestatus ();
             MKLivestatusList = new List<MK_Livestatus> ();
         }
